@@ -34,7 +34,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/index.jsp" id="navIndex" class="navbar-brand">TOLD
+                    <a href="/" id="navIndex" class="navbar-brand">TOLD
                         <!--如果有logo可以加这里，并且把文字去掉，设置height=100%就可以正常显示-->
                     </a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse"

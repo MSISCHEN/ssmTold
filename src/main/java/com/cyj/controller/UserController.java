@@ -77,7 +77,7 @@ public class UserController {
     public String logout(HttpSession session)throws Exception{
         session.removeAttribute("user");
         session.invalidate();
-        return "redirect:/index.jsp";
+        return "redirect:/";
     }
 
 

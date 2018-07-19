@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyj.dao.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="comment" >
+        <id column="comment_id" property="commentId"/>
+        <result column="comment_pid" property="commentPid"/>
+        <result column="comment_article_id" property="commentArticleId"/>
+        <result column="comment_author_id" property="commentAuthorId"/>
+        <result column="comment_content" property="commentContent"/>
+        <result column="comment_create_time" property="commentCreateTime"/>
+        <result column="comment_status" property="commentStatus"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        comment_id, comment_pid, comment_article_id, comment_author_id,
+         comment_content, comment_create_time, comment_status
+    </sql>
+
+    <select id="selectByArticleId" resultType="comment" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from comment
+        where comment_article_id = #{commentArticleId}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from comment
+        where comment_id = #{commentId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from comment
+        where comment_id = #{commentId}
+    </delete>
+    <insert id="insert" parameterType="comment" >
+        <selectKey keyProperty="commentId" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into comment (comment_pid, comment_article_id, comment_author_id, comment_content, comment_create_time, comment_status)
+        values (#{commentPid}, #{commentArticleId},#{commentAuthorId}, #{commentContent}, #{commentCreateTime}, #{commentStatus})
+    </insert>
+
+    <insert id="insertSelective" parameterType="comment" >
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="commentId != null" >
+                comment_id,
+            </if>
+            <if test="commentPid != null" >
+                comment_pid,
+            </if>
+            <if test="commentArticleId != null" >
+                comment_article_id,
+            </if>
+            <if test="commentAuthorId != null" >
+                comment_author_id,
+            </if>
+            <if test="commentContent != null" >
+                comment_content,
+            </if>
+            <if test="commentCreateTime != null" >
+                comment_create_time,
+            </if>
+            <if test="commentStatus != null" >
+                comment_status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="commentId != null" >
+                #{commentId},
+            </if>
+            <if test="commentPid != null" >
+                #{commentPid},
+            </if>
+            <if test="commentArticleId != null" >
+                #{commentArticleId},
+            </if>
+            <if test="commentAuthorId != null" >
+                #{commentAuthorId},
+            </if>
+            <if test="commentContent != null" >
+                #{commentContent},
+            </if>
+            <if test="commentCreateTime != null" >
+                #{commentCreateTime},
+            </if>
+            <if test="commentStatus != null" >
+                #{commentStatus},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="comment" >
+        update comment
+        <set >
+            <if test="commentPid != null" >
+                comment_pid = #{commentPid},
+            </if>
+            <if test="commentArticleId != null" >
+                comment_article_id = #{commentArticleId},
+            </if>
+            <if test="commentAuthorId != null" >
+                comment_author_id = #{commentAuthorId},
+            </if>
+            <if test="commentContent != null" >
+                comment_content = #{commentContent},
+            </if>
+            <if test="commentCreateTime != null" >
+                comment_create_time = #{commentCreateTime},
+            </if>
+            <if test="commentStatus != null" >
+                comment_status = #{commentStatus},
+            </if>
+        </set>
+        where comment_id = #{commentId}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="comment" >
+        update comment
+        set comment_pid = #{commentPid},
+        comment_article_id = #{commentArticleId},
+        comment_author_id = #{commentAuthorId},
+        comment_content = #{commentContent},
+        comment_create_time = #{commentCreateTime},
+        comment_status = #{commentStatus}
+        where comment_id = #{commentId}
+    </update>
+
+</mapper>

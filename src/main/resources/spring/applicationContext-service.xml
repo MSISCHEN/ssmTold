@@ -18,5 +18,10 @@
     <!--用户-->
     <bean id="userService" class="com.cyj.service.impl.UserServiceImpl"/>
 
+    <!--文章-->
+    <bean id="articleService" class="com.cyj.service.impl.ArticleServiceImpl"/>
+
+    <!--评论-->
+    <bean id="commentService" class="com.cyj.service.impl.CommentServiceImpl"/>
 
 </beans>

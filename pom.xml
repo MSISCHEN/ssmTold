@@ -286,6 +286,11 @@
     </dependency>
     <!-- 分页插件 end -->
 
+    <dependency>
+      <groupId>com.googlecode.rapid-framework</groupId>
+      <artifactId>rapid-core</artifactId>
+      <version>4.0.5</version>
+    </dependency>
   </dependencies>
 
   <build>

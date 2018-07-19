@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cyj.dao.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="article_cast" property="articleCast"/>
+        <result column="article_description" property="articleDescription"/>
+        <result column="article_post_time" property="articlePostTime"/>
+        <result column="article_update_time" property="articleUpdateTime"/>
+        <result column="article_like_num" property="articleLikeNum"/>
+        <result column="article_status" property="articleStatus"/>
+        <result column="article_user_id" property="articleUserId"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithBlobs" type="article">
+        <result column="article_content" property="articleContent"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        article_id, article_user_id,article_title,article_cast,article_description,article_post_time,article_like_num,article_status
+    </sql>
+
+    <sql id="Blob_Column_List">
+        article_content
+    </sql>
+
+    <!--根据主键查找文章-->
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBlobs" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        FROM article
+        WHERE article_id=#{articleId}
+    </select>
+
+    <!--&lt;!&ndash;根据主键查找文章信息并且得到用户的信息&ndash;&gt;
+    <select id="getUserArticleById" resultMap="UserArticle" parameterType="java.lang.Integer">
+        SELECT
+        *
+        FROM article
+        WHERE article_id=#{articleId}
+    </select>-->
+
+    <!--得到全部的文章-->
+    <select id="getArticleList" resultType="article">
+        SELECT
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        FROM article
+    </select>
+    
+    
+    <!--根据主键删除文章-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        DELETE FROM article
+        WHERE article_id = #{articleId}
+    </delete>
+
+    <!--新增文章-->
+    <insert id="insertArticle" parameterType="article" >
+        <selectKey keyProperty="articleId" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO article(article_user_id,article_title,article_cast,article_description,article_post_time,article_update_time,article_like_num,article_status,article_content) VALUES (#{articleUserId},#{articleTitle},#{articleCast},#{articleDescription},#{articlePostTime},#{articleUpdateTime},#{articleLikeNum},#{articleStatus},#{articleContent})
+    </insert>
+
+
+
+</mapper>

@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="/resources/login_register/css/bootstrap.css" rel="stylesheet" />
     <script src="/resources/login_register/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="/resources/login_register/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/resources/login_register/js/messages_zh.min.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/bootstrap.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/holder.js" type="text/javascript"></script>
 
@@ -21,6 +23,47 @@
     <script type="text/javascript" src="resources/ueditor/ueditor.config.js"></script>
     <!-- 编辑器源码文件 -->
     <script type="text/javascript" src="resources/ueditor/ueditor.all.js"></script>
+
+    <script>
+        $(function () {
+            $("#formId").validate({
+                rules:{
+                    title:"required",
+                    description:"required",
+                    content:"required"
+                },
+                message:{
+                    title:"请输入标题",
+                    description:"请简述你的文章",
+                    content:"文章不能为空"
+                }
+            });
+        });
+
+        function checkContent(){
+            if (ue.getContent()==""){
+                alert("文章内容为空");
+                return false;
+            }else{
+                return true;
+            }
+        }
+    </script>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+   <%-- <script>
+        $.validator.setDefaults({
+            submitHandler: function() {
+                alert("提交事件!");
+            }
+        });
+        $().ready(function() {
+            $("#commentForm").validate();
+        });
+    </script>--%>
 
 </head>
 
@@ -33,7 +76,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/index.jsp" id="navIndex" class="navbar-brand">
+                    <a href="/WEB-INF/jsp/index.jsp" id="navIndex" class="navbar-brand">
                         <!--如果有logo可以加这里，并且把文字去掉，设置height=100%就可以正常显示-->
                         <img src="resources/ueditor/logo2.gif"/>
                     </a>
@@ -50,24 +93,27 @@
         </nav>
     </div>
     <!-- 导航条end -->
-    <form>
+    <form id="formId" action="/article/insertArticle" method="post" onsubmit="return checkContent();">
+        <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
         <div style="padding:10px 0px 20px 0px">
             <div class="input-group input-group-lg">
-                <input type="text" id="title" class="form-control" placeholder="输入文章标题" aria-describedby="sizing-addon1">
+                <input type="text" id="articleTitle" name="articleTitle" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"  placeholder="输入文章标题">
             </div>
         </div>
 
-        <textarea class="form-control" rows="3" maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"  style="resize:none;" placeholder="简述这篇文章，字数在30~200字之间" id="description"></textarea>
+        <textarea class="form-control" name="articleDescription" rows="3" minlength="30" maxlength="200" style="resize:none;" placeholder="简述这篇文章，字数在30~200字之间" id="articleDescription"></textarea>
 
         <!-- 文本编辑器start -->
         <div style="padding:30px 0px 0px 0px">
             <!-- 加载编辑器的容器 -->
-            <script id="content" name="content" type="text/plain">
+            <script id="articleContent" name="articleContent" type="text/plain">
 					这里写你的初始化内容
-				</script>
+			</script>
+            <%--<textarea id="content" name="content">
+			</textarea>--%>
             <!-- 实例化编辑器 -->
             <script type="text/javascript">
-                var ue = UE.getEditor('content',{
+                var ue = UE.getEditor('articleContent',{
                     toolbars: [
                         ['fullscreen', 'source', 'undo', 'redo', 'cleardoc', 'bold', 'italic', 'underline', 'strikethrough', 'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify','simpleupload', 'insertimage','edittable', 'edittd', 'link', 'unlink', 'emotion', 'spechars', 'inserttable', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'insertparagraphbeforetable']
                     ]
@@ -78,7 +124,7 @@
 
         <div style="padding:30px 5px">
             <span>文章类型：</span>
-            <select id="cast" class="form-control">
+            <select id="articleCast" name="articleCast" class="form-control">
                 <option value="other">其他</option>
                 <option value="food">美食</option>
                 <option value="pet">宠物</option>

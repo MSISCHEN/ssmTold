@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
@@ -111,8 +112,9 @@
                                 <form method="post" accept-charset="UTF-8">
                                     <input id="loginNum" class="form-control" type="text" placeholder="邮箱/手机号码" name="loginNum">
                                     <input id="loginPwd" class="form-control" type="password" placeholder="密码" name="password">
-                                    <input class="btn btn-default btn-login" type="button" value="登陆" onclick="loginAjax()">
+                                    <input class="btn btn-default btn-login" type="button" value="登陆" onclick="loginAjax();">
                                 </form>
+
                             </div>
                         </div>
                     </div>
@@ -166,19 +168,19 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         <div class="item active">
-                            <img src="static/images/一座桥.jpg" alt="">
+                            <img src="../../static/images/一座桥.jpg" alt="">
                             <div class="carousel-caption">
                                 生活如同一番风景
                             </div>
                         </div>
                         <div class="item">
-                            <img src="static/images/冰山雪地.jpg" alt="">
+                            <img src="../../static/images/冰山雪地.jpg" alt="">
                             <div class="carousel-caption">
                                 做人与做事
                             </div>
                         </div>
                         <div class="item">
-                            <img src="static/images/一个悲伤的鸭子.jpg" alt="">
+                            <img src="../../static/images/一个悲伤的鸭子.jpg" alt="">
                             <div class="carousel-caption">
                                 她一直在世界各地旅行
                             </div>
@@ -198,74 +200,34 @@
 
                 <!--滑动图end-->
                 <!-- 显示文章start -->
-                <div style="padding:30px 2px 5px 2px">
-                    <div class="media">
-                        <div class="media-right">
-                            <a href="#">
-                                <img class="media-object thumbnail" src="holder.js/64x64" alt="...">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading" id="title">Media heading</h4>
-                            <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
-								<span>
-									发布日期：<span id="post_date">2018-07-08</span>
-									分类：<span id="cate">宠物</span>
-								</span>
+                <c:if test="${articleList!=null}">
+                    <c:forEach items="${articleList}" var="article">
+                        <div style="padding:30px 2px">
+                            <div class="media">
+                                <div class="media-right">
+                                    <a href="/article/findBlog/${article.articleId}">
+                                        <img class="media-object thumbnail" src="holder.js/84x84" alt="...">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading" id="title">${article.articleTitle}</h4>
+                                    <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
+                                        <span>
+                                            发布日期：<fmt:formatDate value="${article.articlePostTime}"
+                                                                 pattern="MM月dd日 HH:mm"/>
+                                            分类：<span id="cate">${article.articleCast}</span>
+                                        </span>
+                                    </div>
+                                    <div id="description" style="color:#777777;font-size:12px;">
+                                        <p>${article.articleDescription} </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="description" style="color:#777777;font-size:12px;">
-                                <p>我们为生活，毫无保留地活着，而时光，将我们的青春悉数掠夺。我们为自己固执着，为生活承受着；对于上天给予的一切磨难，我们别无选择，只有承担，时光这杯酒，苦的是人生的艰难，而甘甜，是那些悉数可指的收获。
-                                </p>
-                            </div>
                         </div>
-                    </div>
-                </div>
+                    </c:forEach>
+                </c:if>
 
-                <div style="padding:30px 2px 5px 2px">
-                    <div class="media">
-                        <div class="media-right">
-                            <a href="#">
-                                <img class="media-object thumbnail" src="holder.js/64x64" alt="...">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading" id="title">Media heading</h4>
-                            <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
-								<span>
-									发布日期：<span id="post_date">2018-07-08</span>
-									分类：<span id="cate">宠物</span>
-								</span>
-                            </div>
-                            <div id="description" style="color:#777777;font-size:12px;">
-                                <p>我们为生活，毫无保留地活着，而时光，将我们的青春悉数掠夺。我们为自己固执着，为生活承受着；对于上天给予的一切磨难，我们别无选择，只有承担，时光这杯酒，苦的是人生的艰难，而甘甜，是那些悉数可指的收获。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div style="padding:30px 2px 5px 2px">
-                    <div class="media">
-                        <div class="media-right">
-                            <a href="#">
-                                <img class="media-object thumbnail" src="holder.js/64x64" alt="...">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading" id="title">Media heading</h4>
-                            <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
-								<span>
-									发布日期：<span id="post_date">2018-07-08</span>
-									分类：<span id="cate">宠物</span>
-								</span>
-                            </div>
-                            <div id="description" style="color:#777777;font-size:12px;">
-                                <p>我们为生活，毫无保留地活着，而时光，将我们的青春悉数掠夺。我们为自己固执着，为生活承受着；对于上天给予的一切磨难，我们别无选择，只有承担，时光这杯酒，苦的是人生的艰难，而甘甜，是那些悉数可指的收获。
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- 显示文章end -->
 
             </div>
@@ -361,7 +323,7 @@
     <div id="about" style="padding:30px 0px 5px 0px;text-align:center;display:none;">
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
-                <img src="static/images/logo.gif"/>
+                <img src="../../static/images/logo.gif"/>
                 <h1>关于我们</h1>
                 <p>记录那些正在发生的事情和已经发生的事情。
                     We are recording the things are happening and already there. Thanks for your interesting.
@@ -429,7 +391,7 @@
             <div class="col-sm-2 col-sm-offset-2">
                 <h6>推荐图片</h6>
                 <p>
-                    <img src="static/images/logo.gif"/>
+                    <img src="../../static/images/logo.gif"/>
                 </p>
             </div>
         </div>
