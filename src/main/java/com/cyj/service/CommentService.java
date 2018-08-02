@@ -2,6 +2,8 @@ package com.cyj.service;
 
 import com.cyj.pojo.Comment;
 import com.cyj.pojo.custom.CommentArticleVo;
+import com.cyj.pojo.custom.CommentCustom;
+
 import java.util.List;
 
 /**
@@ -12,10 +14,13 @@ public interface CommentService {
     public Integer insertComment(Comment comment) throws Exception;
 
     //根据文章id获取评论列表
-    public List<CommentArticleVo> listCommentByArticleId(Integer status, Integer articleId) throws Exception;
+    public List<CommentCustom> listCommentByArticleId(Integer articleId) throws Exception;
 
     //根据id获取评论
     public CommentArticleVo getCommentById(Integer id) throws Exception;
+
+    //根据文章id获取评论数
+    public Integer getCommentNumByArticleId(Integer commentArticleId) throws Exception;
 
 
     //获取所有评论列表

@@ -4,6 +4,7 @@ import com.cyj.pojo.User;
 import com.cyj.pojo.UserLogin;
 import com.cyj.service.UserService;
 import com.cyj.utils.phone.IndustrySMS;
+import com.mysql.fabric.xmlrpc.base.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -37,6 +39,19 @@ public class UserController {
     }
 */
 
+    //更新用户
+    @RequestMapping("/updateUser")
+    public String updateUser(String date, String uname, User user) throws Exception{
+        if (user!=null){
+            user.setName(uname);
+
+
+            userService.updateUser(user);
+        }
+        return "user/personalPage";
+    }
+
+
     //用户注册
     @RequestMapping("/insertUser")
     public String insertUser(HttpServletRequest request,User user)throws Exception{
@@ -52,6 +67,21 @@ public class UserController {
 
         return "redirect:/index.jsp";
     }
+
+    //查看用户名是否已经被注册了
+    @RequestMapping("/editorName")
+    @ResponseBody
+    public Integer editorName(String name,int id) throws Exception{
+        int result=userService.editorName(name);
+        if(result!=0&&result!=id){
+            result=1;
+        }else{
+            result=0;
+        }
+        System.out.println(result);
+        return result;
+    }
+
 
     //用户登陆
     @RequestMapping("/findUserLogin")

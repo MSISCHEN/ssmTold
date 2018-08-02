@@ -156,7 +156,7 @@ var sms="";
         var email=$(".email").val();
         if (phone!=""){
             $.ajax({
-                url:"http://localhost:8080/code/findPhone",
+                url:"/code/findPhone",
                 type:"post",
                 data:{"phone":phone},
                 dataType:"json",
@@ -168,7 +168,7 @@ var sms="";
             });
         }else if(email!=""){
             $.ajax({
-                url:"http://localhost:8080/code/findEamilCode",
+                url:"/code/findEamilCode",
                 type:"post",
                 data:{"email":email},
                 dataType:"json",
@@ -229,7 +229,7 @@ function LoginNum(){
     var isLoginNum=true;
     if (loginNum!=""){
         $.ajax({
-            url:"http://localhost:8080/code/findLoginNum",
+            url:"/code/findLoginNum",
             type:"post",
             data:{"loginNum":loginNum},
             dataType:"json",
@@ -316,14 +316,14 @@ function loginAjax(){
 
     if(login()) {
         $.ajax({
-            url:"http://localhost:8080/user/findUserLogin",
+            url:"/user/findUserLogin",
             type:"post",
             data:{"loginNum":loginNum,"loginPwd":loginPwd},
             dataType:"json",
             success:function(result){
                 if (result) {
                     $('#error').removeAttr('class','alert alert-danger').html('');
-                    window.location.href="http://localhost:8080/user/personalPage";
+                    location.reload();
                 }else{
                     shakeModal();
                 }

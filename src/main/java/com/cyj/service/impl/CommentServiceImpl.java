@@ -5,6 +5,7 @@ import com.cyj.dao.CommentMapper;
 import com.cyj.dao.UserMapper;
 import com.cyj.pojo.Comment;
 import com.cyj.pojo.custom.CommentArticleVo;
+import com.cyj.pojo.custom.CommentCustom;
 import com.cyj.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,19 +29,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentArticleVo> listCommentByArticleId(Integer status, Integer articleId) throws Exception {
-        List<CommentArticleVo> commentArticleVos=null;
-        if (articleId!=0){
-            List<Comment> comment=commentMapper.selectByArticleId(articleId);
-//            commentArticleVos
-        }
+    public List<CommentCustom> listCommentByArticleId(Integer articleId) throws Exception {
 
-        return null;
+        return commentMapper.selectByArticleId(articleId);
+
     }
+
+
 
     @Override
     public CommentArticleVo getCommentById(Integer id) throws Exception {
         return null;
+    }
+
+    @Override
+    public Integer getCommentNumByArticleId(Integer commentArticleId) throws Exception {
+        return commentMapper.getCommentNumByArticleId(commentArticleId);
     }
 
     @Override

@@ -20,6 +20,12 @@ public interface UserService {
     //查找手机号码是否已被注册
     public User findPhone(String phone) throws Exception;
 
+    //查找用户名是否被注册
+    public Integer editorName(String name) throws Exception;
+
+    //更新用户
+    public void updateUser(User user)throws Exception;
+
     //登陆
     public User findUserLogin(UserLogin userLogin) throws Exception;
 }

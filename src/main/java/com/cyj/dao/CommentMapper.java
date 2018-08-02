@@ -1,6 +1,7 @@
 package com.cyj.dao;
 
 import com.cyj.pojo.Comment;
+import com.cyj.pojo.custom.CommentCustom;
 
 import java.util.List;
 
@@ -10,11 +11,14 @@ import java.util.List;
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer commentId);
 
-    List<Comment> selectByArticleId(Integer articleId);
+    List<CommentCustom> selectByArticleId(Integer articleId);
 
     int insert(Comment record);
 
     int insertSelective(Comment record);
+
+    //根据文章id获取评论数
+    public Integer getCommentNumByArticleId(Integer commentArticleId) throws Exception;
 
     Comment selectByPrimaryKey(Integer commentId);
 

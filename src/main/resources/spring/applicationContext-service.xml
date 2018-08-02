@@ -24,4 +24,6 @@
     <!--评论-->
     <bean id="commentService" class="com.cyj.service.impl.CommentServiceImpl"/>
 
+    <!--收藏-->
+    <bean id="collectionsService" class="com.cyj.service.impl.CollectionsServiceImpl"/>
 </beans>

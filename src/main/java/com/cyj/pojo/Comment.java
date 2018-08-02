@@ -8,11 +8,13 @@ import java.util.Date;
 public class Comment {
     private Integer commentId;
     private Integer commentPid;
-    private String commentAuthorId;
+    private String commentPname;
+    private String commentAuthorName;
     private String commentContent;
     private Date commentCreateTime;
     private Integer commentStatus;
     private Integer commentArticleId;
+    private String commentAuthorHeadImg;
 
     public Integer getCommentId() {
         return commentId;
@@ -30,12 +32,20 @@ public class Comment {
         this.commentPid = commentPid;
     }
 
-    public String getCommentAuthorId() {
-        return commentAuthorId;
+    public String getCommentPname() {
+        return commentPname;
     }
 
-    public void setCommentAuthorId(String commentAuthorId) {
-        this.commentAuthorId = commentAuthorId;
+    public void setCommentPname(String commentPname) {
+        this.commentPname = commentPname;
+    }
+
+    public String getCommentAuthorName() {
+        return commentAuthorName;
+    }
+
+    public void setCommentAuthorName(String commentAuthorName) {
+        this.commentAuthorName = commentAuthorName;
     }
 
     public String getCommentContent() {
@@ -68,5 +78,13 @@ public class Comment {
 
     public void setCommentArticleId(Integer commentArticleId) {
         this.commentArticleId = commentArticleId;
+    }
+
+    public String getCommentAuthorHeadImg() {
+        return commentAuthorHeadImg;
+    }
+
+    public void setCommentAuthorHeadImg(String commentAuthorHeadImg) {
+        this.commentAuthorHeadImg = commentAuthorHeadImg;
     }
 }

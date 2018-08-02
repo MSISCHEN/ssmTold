@@ -1,15 +1,16 @@
 package com.cyj.service.impl;
 
 import com.cyj.dao.ArticleMapper;
+import com.cyj.dao.CollectionsMapper;
+import com.cyj.dao.CommentMapper;
 import com.cyj.dao.UserMapper;
 import com.cyj.pojo.Article;
 import com.cyj.pojo.User;
-import com.cyj.pojo.custom.ArticleCustom;
-import com.cyj.pojo.custom.ArticleListVo;
-import com.cyj.pojo.custom.UserArticleCustom;
+import com.cyj.pojo.custom.*;
 import com.cyj.service.ArticleService;
 import com.cyj.service.UserService;
 import com.cyj.utils.others.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -25,31 +26,106 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CollectionsMapper collectionsMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
     @Override
-    public Article selectByPrimaryKey(int articleId) throws Exception {
+    public ArticleCustom selectByPrimaryKey(int articleId) throws Exception {
         return articleMapper.selectByPrimaryKey(articleId);
     }
 
     @Override
-    public List<ArticleListVo> listArticleByPage(Integer status, Integer pageNo, Integer pageSize) throws Exception {
-        List<ArticleListVo> articleListVoList = new ArrayList<ArticleListVo>();
-        //获得文章列表信息和分页信息
-        List<ArticleCustom> articleCustomList = new ArrayList<ArticleCustom>();
-        Page page = null;
-        int totalCount = articleMapper.countArticle(status);
-        if (pageNo != null) {
-            page = new Page(totalCount, pageNo,pageSize);
-            articleCustomList = articleMapper.listArticleByPage(status,page.getStartPos(),pageSize);
-        } else {
-            page = new Page(totalCount, 1,pageSize);
-            articleCustomList = articleMapper.listArticleByPage(status,page.getStartPos(), pageSize);
-        }
-        return null;
+    public void updateByPrimaryKeySelective(ArticleCustom articleCustom) {
+        articleMapper.updateByPrimaryKeySelective(articleCustom);
     }
 
     @Override
-    public List<Article> getArticleList() throws Exception {
-        return articleMapper.getArticleList();
+    public List<ArticleCustom> getArticleListBySearchKey(Integer articleStatus, String searchKey) throws Exception {
+        List<ArticleCustom> articleCustoms= articleMapper.getArticleListBySearchKey(articleStatus,searchKey);
+        for(int i=0;i<articleCustoms.size();i++){
+            ArticleCustom articleCustom=articleCustoms.get(i);
+            articleCustom.setCollectionNum(collectionsMapper.getArticleCollectionNum(articleCustom.getArticleId()));
+            articleCustom.setCommentNum(commentMapper.getCommentNumByArticleId(articleCustom.getArticleId()));
+        }
+        return articleCustoms;
+    }
+
+    @Override
+    public List<ArticleCustom> selectArticleListByUserId(Integer userId) throws Exception {
+        return articleMapper.selectArticleListByUserId(userId);
+    }
+
+    @Override
+    public void deleteByPrimaryKey(int articleId) throws Exception {
+        articleMapper.deleteByPrimaryKey(articleId);
+    }
+
+    @Override
+    public void updateArticleLikeNum(int articleId) throws Exception {
+        articleMapper.updateArticleLikeNum(articleId);
+    }
+
+
+    @Override
+    public List<ArticleCustom> getArticleList() throws Exception {
+        List<ArticleCustom> articleCustoms= articleMapper.getArticleList();
+        for(int i=0;i<articleCustoms.size();i++){
+            ArticleCustom articleCustom=articleCustoms.get(i);
+            articleCustom.setCollectionNum(collectionsMapper.getArticleCollectionNum(articleCustom.getArticleId()));
+            articleCustom.setCommentNum(commentMapper.getCommentNumByArticleId(articleCustom.getArticleId()));
+        }
+        return articleCustoms;
+    }
+
+    @Override
+    public List<ArticleListVo> getArticleListVo() throws Exception {
+        List<ArticleCustom> articleCustoms=this.getArticleList();
+        List<ArticleListVo> articleListVoList=null ;
+        if (articleCustoms!=null) {
+            articleListVoList=new ArrayList<>();
+            for (int i = 0; i < articleCustoms.size(); i++) {
+                ArticleCustom articleCustom=articleCustoms.get(i);
+                ArticleListVo articleListVo=new ArticleListVo();
+                User user = userMapper.findUserById(articleCustom.getArticleUserId());
+                UserCustom userCustom = new UserCustom();
+                BeanUtils.copyProperties(user, userCustom);
+                articleListVo.setArticleCustom(articleCustom);
+                articleListVo.setUserCustom(userCustom);
+                articleListVoList.add(articleListVo);
+            }
+        }
+        return articleListVoList;
+    }
+
+    @Override
+    public ArticleDetailVo getArticleDetailById(Integer articleId) throws Exception {
+
+        ArticleDetailVo articleDetailVo=new ArticleDetailVo();
+        //1、获取文章信息
+        ArticleCustom articleCustom=articleMapper.selectByPrimaryKey(articleId);
+        articleCustom.setCommentNum(commentMapper.getCommentNumByArticleId(articleId));
+        if(articleCustom==null){
+            return null;
+        }
+        articleDetailVo.setArticleCustom(articleCustom);
+        //2、获取作者信息
+        Integer userId=articleCustom.getArticleUserId();
+        User user=userMapper.findUserById(userId);
+        UserCustom userCustom=new UserCustom();
+        BeanUtils.copyProperties(user,userCustom);
+        articleDetailVo.setUserCustom(userCustom);
+
+        //3、获取评论信息列表
+        List<CommentCustom> commentCustomList=commentMapper.selectByArticleId(articleId);
+        //给每个评论用户添加头像
+
+        articleDetailVo.setCommentCustomList(commentCustomList);
+
+        return articleDetailVo;
+
     }
 
     @Override

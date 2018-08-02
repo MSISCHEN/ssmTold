@@ -29,6 +29,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer editorName(String name) throws Exception {
+        return userMapper.editorName(name);
+    }
+
+    @Override
+    public void updateUser(User user) throws Exception {
+        userMapper.updateUser(user);
+    }
+
+    @Override
     public void insertUser(User user) throws Exception {
         userMapper.insertUser(user);
     }

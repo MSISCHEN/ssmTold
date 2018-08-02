@@ -20,19 +20,20 @@
     <script src="/resources/login_register/js/bootstrap.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/holder.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href="/resources/login_register/css/font-awesome.css"/>
+    <%--<link rel="stylesheet" href="/resources/login_register/css/font-awesome.css"/>
     <link href="/resources/login_register/css/login-register.css" rel="stylesheet" />
     <script src="/resources/login_register/js/login-register.js" type="text/javascript"></script>
-
+--%>
 </head>
 <body>
 <div class="container" >
+    <%@ include file="menu.jsp" %>
     <!-- 导航条start -->
     <div style="margin:10px 2px 100px 2px">
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="javascript:" id="navIndex" class="navbar-brand">TOLD
+                    <a href="/" id="navIndex" class="navbar-brand">TOLD
                         <!--如果有logo可以加这里，并且把文字去掉，设置height=100%就可以正常显示-->
                     </a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse"
@@ -60,9 +61,8 @@
                                 <li><a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">注册</a></li>
                             </c:when>
                             <c:otherwise>
-                                <%--<span>${user.id}</span>--%>
                                 <li><a href="/blog"><span class="glyphicon glyphicon-pencil"></span>写博客</a></li>
-                                <li><a href="/user/personalPage"><img src="${user.headImg}" width="30" height="30" class="img-circle"></img></a></li>
+                                <li><a href="/user/personalPage/${user.id}"><img src="/${user.headImg}" width="30" height="30" class="img-circle"></img></a></li>
                                 <li><a href="/user/logout">退出</a></li>
                             </c:otherwise>
                         </c:choose>
@@ -76,7 +76,7 @@
     <!-- 导航条end -->
 
     <!--登陆注册的模态框-->
-    <div class="modal fade login" id="loginModal">
+   <%-- <div class="modal fade login" id="loginModal">
         <div class="modal-dialog login animated">
             <div class="modal-content">
                 <div class="modal-header">
@@ -151,7 +151,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
+
     <!-- 首页显示的内容start -->
     <div id="myIndex" style="margin:50px 20px 10px 20px">
         <div class="row">
@@ -200,13 +201,13 @@
 
                 <!--滑动图end-->
                 <!-- 显示文章start -->
-                <c:if test="${articleList!=null}">
-                    <c:forEach items="${articleList}" var="article">
+                <c:if test="${articleList.pageNum!=0}">
+                    <c:forEach items="${articleList.list}" var="article">
                         <div style="padding:30px 2px">
                             <div class="media">
-                                <div class="media-right">
+                                <div class="pull-left">
                                     <a href="/article/findBlog/${article.articleId}">
-                                        <img class="media-object thumbnail" src="holder.js/84x84" alt="...">
+                                        <img class="media-object thumbnail" src="/static/images/${article.articleCast}.jpg" width="80px" height="80px" alt="...">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -221,6 +222,13 @@
                                     <div id="description" style="color:#777777;font-size:12px;">
                                         <p>${article.articleDescription} </p>
                                     </div>
+                                    <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
+                                        <span>
+                                            点赞数：${article.articleLikeNum}
+                                            收藏数：${article.collectionNum}
+                                            评论数：${article.commentNum}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -229,18 +237,201 @@
 
 
                 <!-- 显示文章end -->
+                <c:choose>
 
+                    <c:when test="${searchKey==null}">
+                        <div id="nonal">
+                            <!--分页-->
+                            <c:if test="${articleList.pages>1}">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <c:if test="${!articleList.isFirstPage}">
+                                            <li>
+                                                <a href="/p/1" aria-label="Previous">
+                                                    <span aria-hidden="true"><<</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${articleList.hasPreviousPage}">
+                                            <li>
+                                                <a href="/p/${articleList.prePage}" aria-label="Previous">
+                                                    <span aria-hidden="true"><</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+
+                                        <c:choose>
+                                            <c:when test="${articleList.pages <= 3 }">
+                                                <c:set var="begin" value="1"/>
+                                                <c:set var="end" value="${articleList.pages }"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="begin" value="${articleList.pageNum-1 }"/>
+                                                <c:set var="end" value="${articleList.pageNum + 2}"/>
+                                                <c:if test="${begin < 2 }">
+                                                    <c:set var="begin" value="1"/>
+                                                    <c:set var="end" value="3"/>
+                                                </c:if>
+                                                <c:if test="${end > articleList.size }">
+                                                    <c:set var="begin" value="${articleList.pages-2 }"/>
+                                                    <c:set var="end" value="${articleList.pages }"/>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                            <%--显示第一页的页码--%>
+                                        <c:if test="${begin >= 2 }">
+                                            <li><a class="page-numbers" href="/p/1">1</a></li>
+                                        </c:if>
+                                            <%--显示点点点--%>
+                                        <c:if test="${begin  > 2 }">
+                                            <li><span class="page-numbers dots">…</span></li>
+                                        </c:if>
+                                            <%--打印 页码--%>
+                                        <c:forEach begin="${begin }" end="${end }" var="i">
+                                            <c:choose>
+                                                <c:when test="${i eq articleList.pageNum }">
+                                                    <li><a class="page-numbers current" >${i}</a></li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li><a  class="page-numbers" href="/p/${i}">${i }</a></li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                            <%-- 显示点点点 --%>
+                                        <c:if test="${end < articleList.pages-1 }">
+                                            <li><span class="page-numbers dots">…</span></li>
+                                        </c:if>
+                                            <%-- 显示最后一页的数字 --%>
+                                        <c:if test="${end < articleList.pages }">
+                                            <li><a href="/p/${articleList.pages}">
+                                                    ${articleList.pages}
+                                            </a></li>
+                                        </c:if>
+
+
+                                        <c:if test="${articleList.hasNextPage}">
+                                            <li>
+                                                <a href="/p/${articleList.nextPage}" aria-label="Next">
+                                                    <span aria-hidden="true">></span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${!articleList.isLastPage}">
+                                            <li>
+                                                <a href="/p/${articleList.lastPage}" aria-label="Next">
+                                                    <span aria-hidden="true">>></span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+                                </nav>
+                            </c:if>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div id="isSearch">
+                            <!--分页-->
+                            <c:if test="${articleList.pages>1}">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <c:if test="${!articleList.isFirstPage}">
+                                            <li>
+                                                <a href="/p/1/search?searchKey=${searchKey}" aria-label="Previous">
+                                                    <span aria-hidden="true"><<</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${articleList.hasPreviousPage}">
+                                            <li>
+                                                <a href="/p/${articleList.prePage}/search?searchKey=${searchKey}" aria-label="Previous">
+                                                    <span aria-hidden="true"><</span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+
+                                        <c:choose>
+                                            <c:when test="${articleList.pages <= 3 }">
+                                                <c:set var="begin" value="1"/>
+                                                <c:set var="end" value="${articleList.pages }"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:set var="begin" value="${articleList.pageNum-1 }"/>
+                                                <c:set var="end" value="${articleList.pageNum + 2}"/>
+                                                <c:if test="${begin < 2 }">
+                                                    <c:set var="begin" value="1"/>
+                                                    <c:set var="end" value="3"/>
+                                                </c:if>
+                                                <c:if test="${end > articleList.size }">
+                                                    <c:set var="begin" value="${articleList.pages-2 }"/>
+                                                    <c:set var="end" value="${articleList.pages }"/>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                            <%--<li><a href="/p/1">1</a></li>
+                                            <li><a href="/p/2">2</a></li>--%>
+
+                                            <%--显示第一页的页码--%>
+                                        <c:if test="${begin >= 2 }">
+                                            <li><a class="page-numbers" href="/p/1/search?searchKey=${searchKey}">1</a></li>
+                                        </c:if>
+                                            <%--显示点点点--%>
+                                        <c:if test="${begin  > 2 }">
+                                            <li><span class="page-numbers dots">…</span></li>
+                                        </c:if>
+                                            <%--打印 页码--%>
+                                        <c:forEach begin="${begin }" end="${end }" var="i">
+                                            <c:choose>
+                                                <c:when test="${i eq articleList.pageNum }">
+                                                    <li><a class="page-numbers current" >${i}</a></li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li><a  class="page-numbers" href="/p/${i}/search?searchKey=${searchKey}">${i }</a></li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                            <%-- 显示点点点 --%>
+                                        <c:if test="${end < articleList.pages-1 }">
+                                            <li><span class="page-numbers dots">…</span></li>
+                                        </c:if>
+                                            <%-- 显示最后一页的数字 --%>
+                                        <c:if test="${end < articleList.pages }">
+                                            <li><a href="/p/${articleList.pages}/search?searchKey=${searchKey}">
+                                                    ${articleList.pages}
+                                            </a></li>
+                                        </c:if>
+
+                                        <c:if test="${articleList.hasNextPage}">
+                                            <li>
+                                                <a href="/p/${articleList.nextPage}/search?searchKey=${searchKey}" aria-label="Next">
+                                                    <span aria-hidden="true">></span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${!articleList.isLastPage}">
+                                            <li>
+                                                <a href="/p/${articleList.lastPage}/search?searchKey=${searchKey}" aria-label="Next">
+                                                    <span aria-hidden="true">>></span>
+                                                </a>
+                                            </li>
+                                        </c:if>
+                                    </ul>
+                                </nav>
+                            </c:if>
+
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <!-- 右边 -->
             <div id="right" class="col-sm-4">
                 <!-- 搜索框 -->
-                <form class="form-inline" id="searchForm">
+                <form class="form-inline" id="searchForm" method="get" action="/p/1/search">
                     <div class="form-group">
-                        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                        <%--<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>--%>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="searchKey" placeholder="请输入需要搜索的文字">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                            <input type="text" class="form-control" id="searchKey" name="searchKey" placeholder="请输入需要搜索的文字">
+                            <div class="input-group-addon" id="search"><span class="glyphicon glyphicon-search"></span></div>
                         </div>
                     </div>
                 </form>
@@ -417,6 +608,9 @@
             $("#link").css("display","none");
             $("#about").css("display","none");
         });
+        $('#search').click(function () {
+            $("#searchForm").submit();
+        })
     </script>
 </div>
 </body>

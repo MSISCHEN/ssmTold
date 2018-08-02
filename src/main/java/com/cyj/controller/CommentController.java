@@ -26,12 +26,8 @@ public class CommentController {
     public int insertComment(Comment com) throws Exception{
         int commentId=0;
         if(com!=null&&com.getCommentContent().trim().length()!=0){
-            com.setCommentCreateTime(new Date());
+//            com.setCommentCreateTime(new Date());
             com.setCommentStatus(0);
-            if (com.getCommentPid()==null) {
-                com.setCommentPid(0);
-            }
-
             commentService.insertComment(com);
             commentId=com.getCommentId();
         }

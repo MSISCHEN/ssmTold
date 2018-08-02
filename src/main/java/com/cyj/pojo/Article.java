@@ -17,7 +17,6 @@ public class Article {
     private String articleCast;
     private Integer articleStatus;
 
-
     public Integer getArticleId() {
         return articleId;
     }

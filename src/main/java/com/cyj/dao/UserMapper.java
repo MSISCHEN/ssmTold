@@ -2,6 +2,7 @@ package com.cyj.dao;
 
 import com.cyj.pojo.User;
 import com.cyj.pojo.UserLogin;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +20,9 @@ public interface UserMapper {
     //注册用户
     public void insertUser(User user) throws Exception;
 
+    //根据用户名查询用户
+    public User findUserByName(String name) throws Exception;
+
     //查找邮箱是否已被注册
     public User findEmail(String email) throws Exception;
 
@@ -27,5 +31,11 @@ public interface UserMapper {
 
     //登陆
     public User findUserLogin(UserLogin userLogin) throws Exception;
+
+    //查找用户名是否被注册
+    public Integer editorName(@Param("name") String name) throws Exception;
+
+    //更新用户
+    public void updateUser(User user)throws Exception;
 
 }

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page isELIgnored="false"%>
 
 <html>
@@ -19,6 +20,8 @@
     <script src="/resources/login_register/js/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/bootstrap.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/holder.js" type="text/javascript"></script>
+    <script src="/resources/login_register/js/personalPage.js" type="text/javascript"></script>
+
     <script>
         $("#headImg").click(function(){
 
@@ -100,7 +103,7 @@
 
                     <div>
                         <span id="agree">6</span>关注
-                        <span id="agree">6</span>粉丝
+                        <span id="likeNum">6</span>粉丝
                     </div>
                 </div>
                 <div class="col-sm-8">
@@ -114,7 +117,7 @@
                     <hr>
                     <div id="simpleTalk"><c:choose>
                         <c:when test="${fn:length(user.simpleTalk)<2}">
-                            个人简历
+                            个人简述
                         </c:when>
                         <c:otherwise>
                             ${user.simpleTalk}
@@ -122,12 +125,15 @@
                     </c:choose>
                     </div>
                 </div>
-                <div class="col-sm-2"><a href="javascript:"><span class="glyphicon glyphicon-edit"/>修改个人资料</a></div>
+                <div class="col-sm-2"><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-edit"/>修改个人资料</a></div>
 
             </div>
 
         </div>
         <!-- 头部个人信息部分end -->
+
+        <!--修改页面的模态框-->
+        <%@ include file="editor.jsp" %>
 
         <!-- 身体文章信息start -->
         <div id="bodyBody">
@@ -147,107 +153,63 @@
                     <div role="tabpanel" class="tab-pane active" id="articleList">
                         <hr>
                         <!-- 显示一篇文章start -->
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <div id="title">她一直在世界各地旅游</div>
-                                    <div id="post_date">2018-07-09 09:09:09</div>
+                        <c:forEach items="${articleListByUserId}" var="article">
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div id="articleTitle">${article.articleTitle}</div>
+                                        <div id="articlePostTime">
+                                            发表时间：
+                                            <fmt:formatDate value="${article.articlePostTime}" pattern="yyyy年MM月dd日 HH:mm:ss"/>
+                                        </div>
+                                        <div id="articleUpdateTime">
+                                            更新时间：
+                                            <fmt:formatDate value="${article.articleUpdateTime}" pattern="yyyy年MM月dd日 HH:mm:ss"/>
+                                        </div>
 
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <a href="/editorBlog/${article.articleId}">编辑</a>
+                                        <a href="javascript:void(0)" onclick="deleteArticle(${article.articleId})">删除</a>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <a href="javascript:">编辑</a>
-                                    <a href="javascript:">删除</a>
-                                </div>
+                                <hr>
                             </div>
-                            <hr>
-                        </div>
-                        <!-- 显示一篇文章end
-                        <!-- 显示一篇文章start -->
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <div id="title">她一直在世界各地旅游</div>
-                                    <div id="post_date">2018-07-09 09:09:09</div>
+                        </c:forEach>
+                        <!-- 显示一篇文章end-->
 
-                                </div>
-                                <div class="col-sm-2">
-                                    <a href="javascript:">编辑</a>
-                                    <a href="javascript:">删除</a>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <!-- 显示一篇文章end -->
-                        <!-- 显示一篇文章start -->
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <div id="title">她一直在世界各地旅游</div>
-                                    <div id="post_date">2018-07-09 09:09:09</div>
-
-                                </div>
-                                <div class="col-sm-2">
-                                    <a href="javascript:">编辑</a>
-                                    <a href="javascript:">删除</a>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <!-- 显示一篇文章end -->
                     </div>
                     <div role="tabpanel" class="tab-pane" id="collection">
-                        <hr>
+
                         <!-- 显示一篇文章start -->
                         <div>
+                            <hr>
+                            <c:forEach items="${articleList}" var="a">
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <div id="title">她一直在世界各地旅游</div>
-                                    <div id="post_date">2018-07-09 09:09:09</div>
+                                    <a href="/article/findBlog/${a.articleId}">
+                                    <div id="title">${a.articleTitle}</div></a>
+                                    <div id="post_date">
+                                        <fmt:formatDate value="${a.articleUpdateTime}" pattern="yyyy年MM月dd日 HH:mm:ss"/>
+                                    </div>
 
                                 </div>
                                 <div class="col-sm-2">
-                                    <a href="javascript:">删除</a>
+                                    <a href="javascript:void(0)" onclick="cancelCollection(${a.articleId})">取消收藏</a>
                                 </div>
                             </div>
                             <hr>
+                            </c:forEach>
                         </div>
                         <!-- 显示一篇文章end -->
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="messages">
                         <div style="padding:20px">
-					<span style="padding:2px 110px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 110px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 110px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 110px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 110px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 80px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 80px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
-                            <span style="padding:2px 80px 10px 2px;">
-						<img src="holder.js/40x40"></img>
-						<span id="userId">c520666123</span>
-					</span>
+                        <span style="padding:2px 110px 10px 2px;">
+                            <img src="holder.js/40x40"></img>
+                            <span id="userId">c520666123</span>
+                        </span>
                         </div>
 
                     </div>

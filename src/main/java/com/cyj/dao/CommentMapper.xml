@@ -5,23 +5,26 @@
     <resultMap id="BaseResultMap" type="comment" >
         <id column="comment_id" property="commentId"/>
         <result column="comment_pid" property="commentPid"/>
-        <result column="comment_article_id" property="commentArticleId"/>
+        <result column="comment_pname" property="commentPname"/>
+        <result column="comment_article_name" property="commentArticleName"/>
         <result column="comment_author_id" property="commentAuthorId"/>
+        <result column="comment_author_headImg" property="commentAuthorHeadImg"/>
         <result column="comment_content" property="commentContent"/>
         <result column="comment_create_time" property="commentCreateTime"/>
         <result column="comment_status" property="commentStatus"/>
     </resultMap>
 
     <sql id="Base_Column_List" >
-        comment_id, comment_pid, comment_article_id, comment_author_id,
+        comment_id, comment_pid, comment_pname, comment_article_id, comment_author_name, comment_author_headImg,
          comment_content, comment_create_time, comment_status
     </sql>
 
-    <select id="selectByArticleId" resultType="comment" parameterType="java.lang.Integer" >
+    <select id="selectByArticleId" resultType="CommentCustom" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
         from comment
         where comment_article_id = #{commentArticleId}
+        ORDER BY comment_create_time DESC
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
@@ -37,9 +40,15 @@
         <selectKey keyProperty="commentId" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into comment (comment_pid, comment_article_id, comment_author_id, comment_content, comment_create_time, comment_status)
-        values (#{commentPid}, #{commentArticleId},#{commentAuthorId}, #{commentContent}, #{commentCreateTime}, #{commentStatus})
+        insert into comment (comment_pid,comment_pname, comment_article_id, comment_author_name, comment_author_headImg, comment_content, comment_create_time, comment_status)
+        values (#{commentPid}, #{commentPname}, #{commentArticleId},#{commentAuthorName},#{commentAuthorHeadImg}, #{commentContent}, #{commentCreateTime}, #{commentStatus})
     </insert>
+
+    <!--根据文章的id获取评论数量-->
+    <select id="getCommentNumByArticleId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT count(comment_id) FROM comment
+        WHERE comment_article_id=#{commentArticleId}
+    </select>
 
     <insert id="insertSelective" parameterType="comment" >
         insert into comment
@@ -50,11 +59,17 @@
             <if test="commentPid != null" >
                 comment_pid,
             </if>
+            <if test="commentPname != null" >
+                comment_pname,
+            </if>
             <if test="commentArticleId != null" >
                 comment_article_id,
             </if>
-            <if test="commentAuthorId != null" >
-                comment_author_id,
+            <if test="commentAuthorName != null" >
+                comment_author_name,
+            </if>
+            <if test="commentAuthorHeadImg != null" >
+                comment_author_headImg,
             </if>
             <if test="commentContent != null" >
                 comment_content,
@@ -73,11 +88,17 @@
             <if test="commentPid != null" >
                 #{commentPid},
             </if>
+            <if test="commentPname != null" >
+                #{commentPname},
+            </if>
             <if test="commentArticleId != null" >
                 #{commentArticleId},
             </if>
-            <if test="commentAuthorId != null" >
-                #{commentAuthorId},
+            <if test="commentAuthorName != null" >
+                #{commentAuthorName},
+            </if>
+            <if test="commentAuthorHeadImg != null" >
+                #{commentAuthorHeadImg},
             </if>
             <if test="commentContent != null" >
                 #{commentContent},
@@ -97,11 +118,17 @@
             <if test="commentPid != null" >
                 comment_pid = #{commentPid},
             </if>
+            <if test="commentPname != null" >
+                comment_pname = #{commentPname},
+            </if>
             <if test="commentArticleId != null" >
                 comment_article_id = #{commentArticleId},
             </if>
-            <if test="commentAuthorId != null" >
-                comment_author_id = #{commentAuthorId},
+            <if test="commentAuthorName != null" >
+                comment_author_name = #{commentAuthorName},
+            </if>
+            <if test="commentAuthorHeadImg != null" >
+                comment_author_headImg = #{commentAuthorHeadImg},
             </if>
             <if test="commentContent != null" >
                 comment_content = #{commentContent},
@@ -118,8 +145,10 @@
     <update id="updateByPrimaryKey" parameterType="comment" >
         update comment
         set comment_pid = #{commentPid},
+        comment_pname = #{commentPname},
         comment_article_id = #{commentArticleId},
-        comment_author_id = #{commentAuthorId},
+        comment_author_name = #{commentAuthorName},
+        comment_author_headImg = #{commentAuthorHeadImg},
         comment_content = #{commentContent},
         comment_create_time = #{commentCreateTime},
         comment_status = #{commentStatus}
