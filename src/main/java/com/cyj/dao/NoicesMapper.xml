@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyj.dao.NoicesMapper">
+  <resultMap id="BaseResultMap" type="com.cyj.pojo.Noices">
+    <id column="noice_id" jdbcType="INTEGER" property="noiceId" />
+    <result column="noice_create_time" jdbcType="TIMESTAMP" property="noiceCreateTime" />
+    <result column="noice_status" jdbcType="INTEGER" property="noiceStatus" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cyj.pojo.Noices">
+    <result column="noice_content" jdbcType="LONGVARCHAR" property="noiceContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    noice_id, noice_create_time, noice_status
+  </sql>
+  <sql id="Blob_Column_List">
+    noice_content
+  </sql>
+  <!--得到所有的通知-->
+  <select id="selectNoicesList" resultType="noices">
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from noices
+    ORDER BY noice_status DESC,noice_create_time DESC
+  </select>
+  <!--更改通知列表的状态-->
+  <update id="updateNoicesStatus">
+    UPDATE noices SET noice_status=#{noicesStatus} WHERE noice_id=#{noicesId}
+  </update>
+  <!--得到通知的公布列表-->
+  <select id="getNoicesListByStatus" resultType="noices">
+    SELECT
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    FROM noices
+    WHERE noice_status=#{noicesStatus}
+
+  </select>
+
+  <!--实现批量插入-->
+  <insert id="insertInfoBatch" parameterType="java.util.List">
+    INSERT INTO noices(noice_content,noice_create_time,noice_status)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.noiceContent},#{item.noiceCreateTime},#{item.noiceStatus})
+    </foreach>
+  </insert>
+
+
+  <select id="selectByExampleWithBLOBs" parameterType="com.cyj.pojo.NoicesExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from noices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.cyj.pojo.NoicesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from noices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from noices
+    where noice_id = #{noiceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from noices
+    where noice_id = #{noiceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cyj.pojo.NoicesExample">
+    delete from noices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cyj.pojo.Noices">
+    insert into noices (noice_id, noice_create_time, noice_status, 
+      noice_content)
+    values (#{noiceId,jdbcType=INTEGER}, #{noiceCreateTime,jdbcType=TIMESTAMP}, #{noiceStatus,jdbcType=INTEGER}, 
+      #{noiceContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cyj.pojo.Noices">
+    insert into noices
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noiceId != null">
+        noice_id,
+      </if>
+      <if test="noiceCreateTime != null">
+        noice_create_time,
+      </if>
+      <if test="noiceStatus != null">
+        noice_status,
+      </if>
+      <if test="noiceContent != null">
+        noice_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noiceId != null">
+        #{noiceId,jdbcType=INTEGER},
+      </if>
+      <if test="noiceCreateTime != null">
+        #{noiceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noiceStatus != null">
+        #{noiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="noiceContent != null">
+        #{noiceContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cyj.pojo.NoicesExample" resultType="java.lang.Long">
+    select count(*) from noices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update noices
+    <set>
+      <if test="record.noiceId != null">
+        noice_id = #{record.noiceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.noiceCreateTime != null">
+        noice_create_time = #{record.noiceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noiceStatus != null">
+        noice_status = #{record.noiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.noiceContent != null">
+        noice_content = #{record.noiceContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update noices
+    set noice_id = #{record.noiceId,jdbcType=INTEGER},
+      noice_create_time = #{record.noiceCreateTime,jdbcType=TIMESTAMP},
+      noice_status = #{record.noiceStatus,jdbcType=INTEGER},
+      noice_content = #{record.noiceContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update noices
+    set noice_id = #{record.noiceId,jdbcType=INTEGER},
+      noice_create_time = #{record.noiceCreateTime,jdbcType=TIMESTAMP},
+      noice_status = #{record.noiceStatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cyj.pojo.Noices">
+    update noices
+    <set>
+      <if test="noiceCreateTime != null">
+        noice_create_time = #{noiceCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noiceStatus != null">
+        noice_status = #{noiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="noiceContent != null">
+        noice_content = #{noiceContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where noice_id = #{noiceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cyj.pojo.Noices">
+    update noices
+    set noice_create_time = #{noiceCreateTime,jdbcType=TIMESTAMP},
+      noice_status = #{noiceStatus,jdbcType=INTEGER},
+      noice_content = #{noiceContent,jdbcType=LONGVARCHAR}
+    where noice_id = #{noiceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cyj.pojo.Noices">
+    update noices
+    set noice_create_time = #{noiceCreateTime,jdbcType=TIMESTAMP},
+      noice_status = #{noiceStatus,jdbcType=INTEGER}
+    where noice_id = #{noiceId,jdbcType=INTEGER}
+  </update>
+</mapper>
