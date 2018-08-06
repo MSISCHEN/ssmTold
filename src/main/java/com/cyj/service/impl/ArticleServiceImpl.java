@@ -54,6 +54,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public void updateStates(Integer articleId, Integer articleStatus) throws Exception {
+        articleMapper.updateStates(articleId,articleStatus);
+    }
+
+    @Override
     public List<ArticleCustom> selectArticleListByUserId(Integer userId) throws Exception {
         return articleMapper.selectArticleListByUserId(userId);
     }
@@ -66,6 +71,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void updateArticleLikeNum(int articleId) throws Exception {
         articleMapper.updateArticleLikeNum(articleId);
+    }
+
+    @Override
+    public Integer getArticleCount(Integer status) throws Exception {
+        return articleMapper.getArticleCount(status);
     }
 
 
@@ -81,8 +91,39 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<ArticleCustom> getArticleList(Integer status) throws Exception {
+        List<ArticleCustom> articleCustoms= articleMapper.getArticleList(status);
+        for(int i=0;i<articleCustoms.size();i++){
+            ArticleCustom articleCustom=articleCustoms.get(i);
+            articleCustom.setCollectionNum(collectionsMapper.getArticleCollectionNum(articleCustom.getArticleId()));
+            articleCustom.setCommentNum(commentMapper.getCommentNumByArticleId(articleCustom.getArticleId()));
+        }
+        return articleCustoms;
+    }
+
+    @Override
     public List<ArticleListVo> getArticleListVo() throws Exception {
         List<ArticleCustom> articleCustoms=this.getArticleList();
+        List<ArticleListVo> articleListVoList=null ;
+        if (articleCustoms!=null) {
+            articleListVoList=new ArrayList<>();
+            for (int i = 0; i < articleCustoms.size(); i++) {
+                ArticleCustom articleCustom=articleCustoms.get(i);
+                ArticleListVo articleListVo=new ArticleListVo();
+                User user = userMapper.findUserById(articleCustom.getArticleUserId());
+                UserCustom userCustom = new UserCustom();
+                BeanUtils.copyProperties(user, userCustom);
+                articleListVo.setArticleCustom(articleCustom);
+                articleListVo.setUserCustom(userCustom);
+                articleListVoList.add(articleListVo);
+            }
+        }
+        return articleListVoList;
+    }
+
+    @Override
+    public List<ArticleListVo> getArticleListVo(Integer status) throws Exception {
+        List<ArticleCustom> articleCustoms=this.getArticleList(status);
         List<ArticleListVo> articleListVoList=null ;
         if (articleCustoms!=null) {
             articleListVoList=new ArrayList<>();

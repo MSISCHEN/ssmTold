@@ -26,4 +26,7 @@
 
     <!--收藏-->
     <bean id="collectionsService" class="com.cyj.service.impl.CollectionsServiceImpl"/>
+
+    <!--收藏-->
+    <bean id="noicesService" class="com.cyj.service.impl.NoicesServiceImpl"/>
 </beans>

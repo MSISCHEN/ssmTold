@@ -15,6 +15,8 @@ public interface CommentMapper {
 
     int insert(Comment record);
 
+    public Integer getCommentNum()throws Exception;
+
     int insertSelective(Comment record);
 
     //根据文章id获取评论数

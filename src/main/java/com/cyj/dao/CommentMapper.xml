@@ -26,6 +26,13 @@
         where comment_article_id = #{commentArticleId}
         ORDER BY comment_create_time DESC
     </select>
+
+    <select id="getCommentNum" resultType="java.lang.Integer">
+        SELECT count(comment_id) FROM comment
+    </select>
+
+
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />

@@ -48,6 +48,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Integer getCommentNum() throws Exception {
+        return commentMapper.getCommentNum();
+    }
+
+    @Override
     public List<CommentArticleVo> listCommentByPage(Integer status, Integer pageNow, Integer pageSize) throws Exception {
         return null;
     }

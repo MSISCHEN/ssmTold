@@ -60,13 +60,6 @@
         WHERE article_user_id=#{articleUserId}
         ORDER BY article_update_time DESC
     </select>
-    <!--&lt;!&ndash;根据主键查找文章信息并且得到用户的信息&ndash;&gt;
-    <select id="getUserArticleById" resultMap="UserArticle" parameterType="java.lang.Integer">
-        SELECT
-        *
-        FROM article
-        WHERE article_id=#{articleId}
-    </select>-->
 
     <!--得到全部的文章-->
     <select id="getArticleList" resultType="articleCustom">
@@ -75,8 +68,13 @@
         ,
         <include refid="Blob_Column_List"/>
         FROM article
+        <if test="status!=null">
+            WHERE article_status=#{status}
+        </if>
         ORDER BY article_update_time DESC
     </select>
+
+
     
     
     <!--根据主键删除文章-->
@@ -98,6 +96,21 @@
         UPDATE article SET article_like_num= article_like_num+1
         WHERE article_id=#{articleId}
     </update>
+
+    <!--更改文章的状态-->
+    <update id="updateStates">
+        UPDATE article SET article_status=#{articleStatus} WHERE article_id=#{articleId}
+    </update>
+
+    <!--获取文章数-->
+    <select id="getArticleCount" resultType="java.lang.Integer">
+        SELECT COUNT(article_id) FROM article
+        <if test="status!=null">
+         WHERE article_status=#{status}
+        </if>
+
+    </select>
+
 
     <!--更新文章-->
     <update id="updateByPrimaryKeySelective" parameterType="articleCustom" >

@@ -3,13 +3,21 @@ package com.cyj.service;
 import com.cyj.pojo.User;
 import com.cyj.pojo.UserLogin;
 
+import java.util.List;
+
 /**
  * Created by amini on 2018/7/12.
  */
 public interface UserService {
 
+    //得到用户列表
+    public List<User> getUserList()throws Exception;
+
     //根据用户id查询用户
     public User findUserById(int id) throws Exception;
+
+    //统计用户数量
+    public Integer getUserNum()throws Exception;
 
     //注册用户
     public void insertUser(User user) throws Exception;

@@ -22,6 +22,9 @@ public interface CommentService {
     //根据文章id获取评论数
     public Integer getCommentNumByArticleId(Integer commentArticleId) throws Exception;
 
+    //统计评论数
+    public Integer getCommentNum()throws Exception;
+
 
     //获取所有评论列表
     public List<CommentArticleVo> listCommentByPage(Integer status, Integer pageNow, Integer pageSize) throws Exception;

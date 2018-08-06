@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cyj.dao.UserMapper">
+
+    <!--得到用户列表-->
+    <select id="getUserList" resultType="User">
+      SELECT * FROM user
+    </select>
+
     <!--根据用户id得到用户信息-->
     <select id="findUserById" parameterType="int" resultType="User">
         SELECT * FROM USER WHERE id=#{id}
     </select>
+
+    <!--得到用户数量-->
+    <select id="getUserNum" resultType="java.lang.Integer">
+        SELECT count(id) FROM user
+    </select>
+
 
     <!--根据用户id得到用户信息-->
     <select id="findUserByName" parameterType="java.lang.String" resultType="User">

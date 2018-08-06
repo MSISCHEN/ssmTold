@@ -5,7 +5,7 @@ import com.cyj.pojo.custom.ArticleCustom;
 import com.cyj.pojo.custom.ArticleDetailVo;
 import com.cyj.pojo.custom.ArticleListVo;
 import com.cyj.pojo.custom.UserArticleCustom;
-import org.apache.ibatis.annotations.Param;
+
 
 import java.util.List;
 
@@ -26,6 +26,9 @@ public interface ArticleService {
     //查询文章
     public List<ArticleCustom> getArticleListBySearchKey(Integer articleStatus, String searchKey) throws Exception;
 
+    //更改文章的状态
+    public void updateStates(Integer articleId,Integer articleStatus) throws Exception;
+
 
     //根据用户的id得到文章列表
     public List<ArticleCustom> selectArticleListByUserId(Integer userId) throws Exception;
@@ -34,14 +37,23 @@ public interface ArticleService {
     public void deleteByPrimaryKey (int articleId) throws Exception;
 
     //增加点赞
-    public void updateArticleLikeNum(@Param("articleId") int articleId) throws Exception;
+    public void updateArticleLikeNum(int articleId) throws Exception;
+
+    //获取文章总数
+    public Integer getArticleCount(Integer status) throws Exception;
 
 
     //获取文章列表
     public List<ArticleCustom> getArticleList() throws Exception;
 
+    public List<ArticleCustom> getArticleList(Integer status) throws Exception;
+
+
     //获取文章列表而且取得用户的信息
     public List<ArticleListVo> getArticleListVo() throws Exception;
+
+    //获取文章列表而且取得用户的信息
+    public List<ArticleListVo> getArticleListVo(Integer status) throws Exception;
 
     //显示文章的信息和评论列表和作者信息
     public ArticleDetailVo getArticleDetailById(Integer articleId) throws Exception;

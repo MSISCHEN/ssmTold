@@ -6,16 +6,29 @@ import com.cyj.pojo.UserLogin;
 import com.cyj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Created by amini on 2018/7/1.
  */
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public List<User> getUserList() throws Exception {
+        return userMapper.getUserList();
+    }
+
     @Override
     public User findUserById(int id) throws Exception {
         //通过mapper查询数据库
         return userMapper.findUserById(id);
+    }
+
+    @Override
+    public Integer getUserNum() throws Exception {
+        return userMapper.getUserNum();
     }
 
     @Override

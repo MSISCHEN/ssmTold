@@ -29,6 +29,9 @@ public interface ArticleMapper {
 
     public void updateByPrimaryKey(Article record);
 
+    //更改文章的状态
+    public void updateStates(@Param("articleId") Integer articleId,@Param("articleStatus") Integer articleStatus) throws Exception;
+
     //查询文章
     public List<ArticleCustom> getArticleListBySearchKey(@Param("articleStatus") Integer articleStatus,@Param("searchKey")String searchKey) throws Exception;
 
@@ -36,10 +39,12 @@ public interface ArticleMapper {
     public void updateArticleLikeNum(@Param("articleId") int articleId) throws Exception;
 
     //获取文章总数
-    public Integer countArticle(@Param(value="status") Integer status) throws Exception;
+    public Integer getArticleCount(@Param(value="status") Integer status) throws Exception;
 
        //获取文章列表
     public List<ArticleCustom> getArticleList() throws Exception;
 
+    //获取文章列表
+    public List<ArticleCustom> getArticleList(@Param("status") Integer status) throws Exception;
 
 }

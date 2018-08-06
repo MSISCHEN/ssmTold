@@ -5,6 +5,8 @@ import com.cyj.pojo.UserLogin;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by amini on 2018/7/1.
  * @Description 用户dao接口
@@ -16,6 +18,13 @@ public interface UserMapper {
     @return 用户
     * */
     public User findUserById(int id) throws Exception;
+
+    //得到用户列表
+    public List<User> getUserList()throws Exception;
+
+
+    //统计用户数量
+    public Integer getUserNum()throws Exception;
 
     //注册用户
     public void insertUser(User user) throws Exception;
