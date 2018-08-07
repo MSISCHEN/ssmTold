@@ -81,6 +81,11 @@ public class RedirectController {
         return modelAndView;
     }
 
+    @RequestMapping("/admin")
+    public String admin() throws Exception{
+        return "admin/login";
+    }
+
     @RequestMapping("p/{pageNow}")
     public ModelAndView articleListByPageView(@PathVariable int pageNow) throws Exception{
         ModelAndView modelAndView=new ModelAndView();

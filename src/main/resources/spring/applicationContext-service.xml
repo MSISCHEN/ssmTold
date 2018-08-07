@@ -29,4 +29,7 @@
 
     <!--收藏-->
     <bean id="noicesService" class="com.cyj.service.impl.NoicesServiceImpl"/>
+
+    <!--admin-->
+    <bean id="adminService" class="com.cyj.service.impl.AdminServiceImpl"/>
 </beans>

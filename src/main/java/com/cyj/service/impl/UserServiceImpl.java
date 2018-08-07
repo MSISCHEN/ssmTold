@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateHeadImg(int userId, String headImg) throws Exception {
+        userMapper.updateHeadImg(userId,headImg);
+    }
+
+    @Override
     public User findEmail(String email) throws Exception {
         return userMapper.findEmail(email);
     }

@@ -2,7 +2,6 @@ package com.cyj.service;
 
 import com.cyj.pojo.User;
 import com.cyj.pojo.UserLogin;
-
 import java.util.List;
 
 /**
@@ -18,6 +17,9 @@ public interface UserService {
 
     //统计用户数量
     public Integer getUserNum()throws Exception;
+
+    //修改用户头像
+    public void updateHeadImg(int userId, String headImg) throws Exception;
 
     //注册用户
     public void insertUser(User user) throws Exception;

@@ -22,6 +22,8 @@ public interface UserMapper {
     //得到用户列表
     public List<User> getUserList()throws Exception;
 
+    //修改用户头像
+    public void updateHeadImg(@Param("userId") int userId,@Param("headImg") String headImg) throws Exception;
 
     //统计用户数量
     public Integer getUserNum()throws Exception;

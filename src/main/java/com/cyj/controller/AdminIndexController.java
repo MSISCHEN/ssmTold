@@ -1,14 +1,12 @@
 package com.cyj.controller;
 
+import com.cyj.pojo.Admin;
 import com.cyj.pojo.Noices;
 import com.cyj.pojo.User;
 import com.cyj.pojo.custom.AdminCustom;
 
 import com.cyj.pojo.custom.ArticleListVo;
-import com.cyj.service.ArticleService;
-import com.cyj.service.CommentService;
-import com.cyj.service.NoicesService;
-import com.cyj.service.UserService;
+import com.cyj.service.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +49,25 @@ public class AdminIndexController {
     @Autowired
     NoicesService noicesService;
 
+    @Autowired
+    AdminService adminService;
+
     @RequestMapping("/index")
-    public ModelAndView index() throws Exception{
-        ModelAndView modelAndView=new ModelAndView();
-        AdminCustom adminCustom=new AdminCustom();
-        adminCustom.setAllArticleNum(articleService.getArticleCount(null));
-        adminCustom.setArticleDispassNum(articleService.getArticleCount(2));
-        adminCustom.setArticlePassNum(articleService.getArticleCount(1));
-        adminCustom.setCommentNum(commentService.getCommentNum());
-        adminCustom.setUserNum(userService.getUserNum());
+    public ModelAndView index(HttpServletRequest request) throws Exception{
+        ModelAndView modelAndView = new ModelAndView();
+        if (request.getSession().getAttribute("admin")!=null) {
+            AdminCustom adminCustom = new AdminCustom();
+            adminCustom.setAllArticleNum(articleService.getArticleCount(null));
+            adminCustom.setArticleDispassNum(articleService.getArticleCount(2));
+            adminCustom.setArticlePassNum(articleService.getArticleCount(1));
+            adminCustom.setCommentNum(commentService.getCommentNum());
+            adminCustom.setUserNum(userService.getUserNum());
 
-        modelAndView.addObject("adminCustom",adminCustom);
-        modelAndView.setViewName("admin/index");
-
+            modelAndView.addObject("adminCustom", adminCustom);
+            modelAndView.setViewName("admin/index");
+        }else{
+            modelAndView.setViewName("redirect:/admin");
+        }
         return modelAndView;
     }
 
@@ -123,6 +127,24 @@ public class AdminIndexController {
         List<User> userList=userService.getUserList();
         modelAndView.addObject("userList",userList);
         modelAndView.setViewName("admin/userIndex");
+        return modelAndView;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(HttpServletRequest request,Admin admin) throws Exception{
+        ModelAndView modelAndView=new ModelAndView();
+        if(admin!=null) {
+            Integer id = adminService.selectAdmin(admin);
+            if (id != null) {
+                admin.setAdminId(id);
+                request.getSession().setAttribute("admin", admin);
+                modelAndView.setViewName("redirect:/admin/index");
+                return modelAndView;
+            }
+        }
+        modelAndView.addObject("error", "用户名或者密码错误");
+        modelAndView.setViewName("redirect:/admin");
+
         return modelAndView;
     }
 

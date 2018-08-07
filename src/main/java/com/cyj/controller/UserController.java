@@ -5,14 +5,17 @@ import com.cyj.pojo.UserLogin;
 import com.cyj.service.UserService;
 import com.cyj.utils.phone.IndustrySMS;
 import com.mysql.fabric.xmlrpc.base.Data;
+import org.apache.maven.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -44,13 +47,51 @@ public class UserController {
     public String updateUser(String date, String uname, User user) throws Exception{
         if (user!=null){
             user.setName(uname);
-
-
             userService.updateUser(user);
         }
         return "user/personalPage";
     }
 
+    //更改用户头像
+    @RequestMapping("/eidtorHeadImg")
+    public String eidtorHeadImg(HttpServletRequest request, MultipartFile file, int userId ,Model model) throws Exception {
+
+        //定义文件保存的本地路径
+        String localPath = request.getServletContext().getRealPath("/");
+
+        User user=(User)request.getSession().getAttribute("user");
+        if (user!=null &&file!=null) {
+            if (user.getHeadImg()!=null){
+                String oldfilename=localPath+"\\"+user.getHeadImg();
+                File file1=new File(oldfilename);
+                file1.delete();
+            }
+            //保存数据库的路径
+            String sqlPath = null;
+            //定义文件名
+            String fileName = null;
+                //生成uuid作为文件名
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+
+            String contentType = file.getContentType();
+            //获取文件后缀名
+            String suffixName = contentType.substring(contentType.indexOf("/") + 1);
+            //得到文件名
+            fileName = uuid + "." + suffixName;
+            System.out.println(fileName);
+            //文件保存路径
+            file.transferTo(new File(localPath + "static/images/" + fileName));
+            //把图片的相对路径保存至数据库
+            sqlPath="static/images/"+fileName;
+            System.out.println(localPath + "static/images/" + fileName);
+            userService.updateHeadImg(userId,sqlPath);
+
+            user.setHeadImg(sqlPath);
+            request.getSession().setAttribute("user",user);
+        }
+        return "redirect:/user/personalPage/"+userId;
+
+    }
 
     //用户注册
     @RequestMapping("/insertUser")

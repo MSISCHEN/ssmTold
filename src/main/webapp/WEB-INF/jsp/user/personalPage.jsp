@@ -22,13 +22,6 @@
     <script src="/resources/login_register/js/holder.js" type="text/javascript"></script>
     <script src="/resources/login_register/js/personalPage.js" type="text/javascript"></script>
 
-    <script>
-        $("#headImg").click(function(){
-
-
-        });
-
-    </script>
 </head>
 <body>
 <div class="container" >
@@ -77,7 +70,7 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div data-toggle="modal" data-target="#myModal">
-                        <img id="headImg" src="/${user.headImg}" width="160px" height="160px"></img>
+                        <img id="headImg" src="${pageContext.request.contextPath}/${user.headImg}" width="160px" height="160px"></img>
                     </div>
                     <!-- Modal start-->
                     <div class="modal fade" id="myModal">
@@ -88,9 +81,11 @@
                                     <h3>修改头像</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" method="post" enctype="mutipart/form-data">
+                                    <form action="/user/eidtorHeadImg" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="userId" value="${user.id}"/>
                                         <label for="file">文件名：</label>
                                         <input id="file" name="file" type="file"/>
+
                                         <input type="submit" name="submit" value="提交">
 
                                     </form>

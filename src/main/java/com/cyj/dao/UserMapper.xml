@@ -17,6 +17,11 @@
         SELECT count(id) FROM user
     </select>
 
+    <update id="updateHeadImg">
+        UPDATE user
+        SET headImg=#{headImg}
+        WHERE id=#{userId}
+    </update>
 
     <!--根据用户id得到用户信息-->
     <select id="findUserByName" parameterType="java.lang.String" resultType="User">

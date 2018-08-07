@@ -24,8 +24,8 @@
     <div data-options="region:'north'" style="height:90px;">
         <img src="/static/images/logo.gif"/>
     </div>
-    <div data-options="region:'south',split:true" style="height:50px;">
-        <span>@copy amini</span>
+    <div data-options="region:'south',split:true" style="height:50px;text-align:center">
+        <span>©copy amini</span>
 
     </div>
     <div data-options="region:'west',split:true" title="后台管理" style="width:200px;">
@@ -85,7 +85,7 @@
 
                         </table>
                     </form>
-                    <input type="button" value="ajax方式提交" id="btn" name="btn" onclick="impotr();" >
+                    <input type="button" value="提交" id="btn" name="btn" onclick="impotr();" >
                 </div>
 
             </div>
