@@ -47,25 +47,14 @@ public class CollectionsController {
         Integer num=0;
         num=collectionsService.selectCollection(collectionsCustom);
         System.out.println(num);
+        if (num==null){
+            collectionsCustom.setCollectionCreateTime(new Date());
+            collectionsService.insertCollection(collectionsCustom);
+        }
         return num;
     }
 
-    /*@RequestMapping("/getCollectionArticleList/{userId}")
-    public ModelAndView getCollectionArticleList(@PathVariable int userId)throws Exception{
-        ModelAndView modelAndView=new ModelAndView();
-        List<Integer> articleIdList=collectionsService.getArticleIdListByUserId(userId);
-        List<ArticleCustom> articleList=new ArrayList<>(articleIdList.size());
-        if(articleIdList.size()>0){
-            for(int i=0;i<articleIdList.size();i++){
-                articleList.add(articleService.selectByPrimaryKey(articleIdList.get(0)));
-            }
-            modelAndView.addObject("articleList",articleList);
-        }
 
-
-
-        return modelAndView;
-    }*/
 
     //取消收藏
     @RequestMapping("/deleteCollection/{articleId}")

@@ -26,6 +26,15 @@
         article_content
     </sql>
 
+    <!--根据分类查找文章-->
+    <select id="getArticleListByCast" resultType="articleCustom">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM article
+        WHERE article_cast=#{cast} AND article_status=#{articleStatus}
+        ORDER BY article_update_time DESC
+    </select>
+
     <!--根据主键查找文章-->
     <select id="selectByPrimaryKey" resultType="articleCustom" parameterType="java.lang.Integer">
         SELECT

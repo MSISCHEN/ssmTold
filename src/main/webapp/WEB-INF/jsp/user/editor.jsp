@@ -24,11 +24,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">编辑简介</h4>
             </div>
-            <form action="/user/updateUser">
+            <form action="/user/updateUser" onsubmit="return checkName();" method="post">
             <div class="modal-body">
                 <div id="error" style="color: #F74933"></div>
                 <div>
-
+                        <input id="id" name="id" type="hidden" value="${user.id}"/>
                         昵称：<input type="text" class="form-control" id="uname" name="uname" value="${user.name}" onblur="checkName();">
                         <c:if test="${user.name!=null}">
                             邮箱：<input type="text" class="form-control has-error" id="email" value="${user.email}" readonly>
@@ -39,17 +39,17 @@
                         性别：
                         <!--单选按钮start-->
                     <div id="sex" >
-                        <input type="radio" name="sex" id="sex1" value="男"> 男
-                        <input type="radio" name="sex" id="sex2" value="女"> 女
+                        <input type="radio" name="sex" id="sex1" value="男" <c:if test="${user.sex=='男'}">checked="checked"</c:if>> 男
+                        <input type="radio" name="sex" id="sex2" value="女"<c:if test="${user.sex=='女'}">checked="checked"</c:if>> 女
                     </div>
                     <!--单选按钮end-->
                         生日：
                     <!--日历start-->
-                    ${user.birthday}
+                    <input type="hidden" value="${user.birthday}" id="birth"/>
                         <div class="input-group">
                             <span class="input-group-add">
                             <img src="/static/images/calendar.png" alt="" class="icon data-icon"/></span>
-                            <input type="text" name="birthday" id="laydateInput" value="${user.birthday}" class="form-control" placeholder="xxxx年xx月xx日"/>
+                            <input type="text" name="birthday" id="laydateInput" class="form-control" placeholder="xxxx年xx月xx日"/>
                         </div>
                         <div class="select-date">
                             <div class="select-date-header">
@@ -74,13 +74,13 @@
                         </div>
 
                     <!--日历end-->
-                    简述：<textarea class="form-control" rows="3" id="simpleTalk">${user.simpleTalk}</textarea>
+                    简述：<textarea class="form-control" rows="3" id="simpleTalk" name="simpleTalk">${user.simpleTalk}</textarea>
 
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" id="save" class="btn btn-primary">保存</button>
+                <button type="submit" id="save" class="btn btn-primary">保存</button>
             </div>
             </form>
         </div>
@@ -93,15 +93,9 @@
         alert(result);
     }
 
-//    $("input[name='sex'][checked]").val();//获取被选中的Radio的value值
-    /*$(function () {
-        $("input[name='sex'][value='${user.sex}']").attr("checked",true);
-    })
 
-*/
     function checkName() {
         var name=$("#uname").val();
-        alert(name);
         var temp=false;
         $.ajax({
             url:"/user/editorName",
@@ -110,7 +104,6 @@
             data:{"name":name,"id":${user.id}},
             dataType:"json",
             success:function(result){
-                alert(result);
                 if (result=="1"){
                    $("#error").html("用户名已存在");
                    temp=false;
@@ -125,34 +118,18 @@
         });
         return temp;
     }
-    $("#save").click(function () {
+    $(function () {
+        var birth=$("#birth").val();
+        $('#laydateInput').val(birth);
+    })
+    /*$("#save").click(function () {
         var name=$("#uname").val();
         var sex=$("input[name='sex'][checked]").val();//获取被选中的Radio的value
         var birthday=$('#laydateInput').val();
         var simpleTalk=$('#simpleTalk').text();
-        alert(name+"  "+sex+"  "+birthday+"  "+simpleTalk);
-        alert(typeof(birthday));
-        /*$.ajax({
-            url:"/user/updateUser",
-            type:"post",
-            async:false,
-            data:{"name":name,"id":${user.id},"sex":sex,"birthday":birthday,simpleTalk:simpleTalk},
-            dataType:"json",
-            success:function(result){
-                alert(result);
-                if (result=="1"){
-                    $("#error").html("用户名已存在");
-                    temp=false;
-                }else{
-                    $("#error").html("");
-                    temp=true;
-                }
-            },
-            error:function(result){
 
-            }
-        });*/
-    })
+
+    })*/
 
 </script>
 </body>

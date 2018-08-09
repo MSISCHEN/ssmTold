@@ -14,7 +14,7 @@ public interface NoicesMapper {
     public void updateNoicesStatus(@Param("noicesId") Integer noicesId,@Param("noicesStatus") Integer noicesStatus) throws Exception;
 
     //得到通知的公布列表
-    public void getNoicesListByStatus(@Param("noicesStatus") Integer noicesStatus) throws Exception;
+    public List<Noices> getNoicesListByStatus(@Param("noicesStatus") Integer noicesStatus) throws Exception;
 
     //批量插入
     public void insertInfoBatch(List<Noices> noices) throws Exception;

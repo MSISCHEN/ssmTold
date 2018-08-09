@@ -5,6 +5,7 @@ import com.cyj.pojo.custom.ArticleCustom;
 import com.cyj.pojo.custom.ArticleListVo;
 import com.cyj.service.ArticleService;
 import com.cyj.service.CollectionsService;
+import com.cyj.service.NoicesService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class RedirectController {
     @Autowired
     CollectionsService collectionsService;
 
+    @Autowired
+    NoicesService noicesService;
 
     @RequestMapping("user/personalPage/{userId}")
     public ModelAndView getPersonalPage(HttpServletRequest request, @PathVariable Integer userId) throws Exception{
@@ -74,9 +77,27 @@ public class RedirectController {
     public ModelAndView index() throws Exception{
         ModelAndView modelAndView=new ModelAndView();
         PageHelper.startPage(1,5);
-        List<ArticleCustom> articleList=articleService.getArticleList();
+        List<ArticleCustom> articleList=articleService.getArticleList(1);
         PageInfo<ArticleCustom> articleLists=new PageInfo<>(articleList);
         modelAndView.addObject("articleList",articleLists);
+        //推荐文章
+        modelAndView.addObject("articles",articleService.getArticleList(3));
+        modelAndView.addObject("noicesList",noicesService.getNoicesListByStatus(1));
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    @RequestMapping("cast/{ca}")
+    public ModelAndView articleListByCast(@PathVariable String ca) throws Exception{
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.addObject("noicesList",noicesService.getNoicesListByStatus(1));
+        List<ArticleCustom> articleList=articleService.getArticleListByCast(ca,1);
+        PageHelper.startPage(1,articleList.size());
+        PageInfo<ArticleCustom> articleLists=new PageInfo<>(articleList);
+        //推荐文章
+        modelAndView.addObject("articles",articleService.getArticleList(3));
+        modelAndView.addObject("articleList",articleLists);
+
         modelAndView.setViewName("index");
         return modelAndView;
     }
@@ -90,9 +111,12 @@ public class RedirectController {
     public ModelAndView articleListByPageView(@PathVariable int pageNow) throws Exception{
         ModelAndView modelAndView=new ModelAndView();
         PageHelper.startPage((pageNow-1)*5,5);
-        List<ArticleCustom> articleList=articleService.getArticleList();
+        List<ArticleCustom> articleList=articleService.getArticleList(1);
         PageInfo<ArticleCustom> articleLists=new PageInfo<>(articleList);
         modelAndView.addObject("articleList",articleLists);
+        modelAndView.addObject("noicesList",noicesService.getNoicesListByStatus(1));
+        //推荐文章
+        modelAndView.addObject("articles",articleService.getArticleList(3));
         System.out.println(articleLists.toString());
         modelAndView.setViewName("index");
         return modelAndView;
@@ -107,6 +131,9 @@ public class RedirectController {
         PageInfo<ArticleCustom> articleLists=new PageInfo<>(articleList);
         modelAndView.addObject("articleList",articleLists);
         modelAndView.addObject("searchKey",searchKey);
+        modelAndView.addObject("noicesList",noicesService.getNoicesListByStatus(1));
+        //推荐文章
+        modelAndView.addObject("articles",articleService.getArticleList(3));
         System.out.println(articleLists.toString());
         modelAndView.setViewName("index");
         return modelAndView;

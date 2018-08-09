@@ -22,7 +22,7 @@ public interface NoicesService {
     public void updateNoicesStatus(Integer noicesId,Integer noicesStatus) throws Exception;
 
     //得到通知的公布列表
-    public void getNoicesListByStatus(Integer noicesStatus) throws Exception;
+    public List<Noices> getNoicesListByStatus(Integer noicesStatus) throws Exception;
 
     //增加通知
     public void insertNoices(Noices noices) throws Exception;

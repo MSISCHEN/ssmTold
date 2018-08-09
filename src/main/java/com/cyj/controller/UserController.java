@@ -44,25 +44,27 @@ public class UserController {
 
     //更新用户
     @RequestMapping("/updateUser")
-    public String updateUser(String date, String uname, User user) throws Exception{
+    public String updateUser(HttpServletRequest request, String birthday, String uname, User user) throws Exception{
         if (user!=null){
             user.setName(uname);
+            user.setBirthday(birthday);
             userService.updateUser(user);
+
+            request.getSession().removeAttribute("user");
+            request.getSession().setAttribute("user",userService.findUserById(user.getId()));
         }
-        return "user/personalPage";
+        return "redirect:personalPage/"+user.getId();
     }
 
     //更改用户头像
     @RequestMapping("/eidtorHeadImg")
-    public String eidtorHeadImg(HttpServletRequest request, MultipartFile file, int userId ,Model model) throws Exception {
-
+    public String eidtorHeadImg(HttpServletRequest request, MultipartFile file, int userId) throws Exception {
         //定义文件保存的本地路径
         String localPath = request.getServletContext().getRealPath("/");
-
         User user=(User)request.getSession().getAttribute("user");
         if (user!=null &&file!=null) {
             if (user.getHeadImg()!=null){
-                String oldfilename=localPath+"\\"+user.getHeadImg();
+                String oldfilename=localPath+"//"+user.getHeadImg();
                 File file1=new File(oldfilename);
                 file1.delete();
             }
@@ -72,7 +74,6 @@ public class UserController {
             String fileName = null;
                 //生成uuid作为文件名
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-
             String contentType = file.getContentType();
             //获取文件后缀名
             String suffixName = contentType.substring(contentType.indexOf("/") + 1);
@@ -84,8 +85,8 @@ public class UserController {
             //把图片的相对路径保存至数据库
             sqlPath="static/images/"+fileName;
             System.out.println(localPath + "static/images/" + fileName);
+            System.out.println(localPath);
             userService.updateHeadImg(userId,sqlPath);
-
             user.setHeadImg(sqlPath);
             request.getSession().setAttribute("user",user);
         }
@@ -113,8 +114,8 @@ public class UserController {
     @RequestMapping("/editorName")
     @ResponseBody
     public Integer editorName(String name,int id) throws Exception{
-        int result=userService.editorName(name);
-        if(result!=0&&result!=id){
+        Integer result=userService.editorName(name);
+        if(result!=null&&result!=id){
             result=1;
         }else{
             result=0;

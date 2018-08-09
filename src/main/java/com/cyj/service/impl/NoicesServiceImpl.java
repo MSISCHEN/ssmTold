@@ -29,8 +29,8 @@ public class NoicesServiceImpl implements NoicesService {
     }
 
     @Override
-    public void getNoicesListByStatus(Integer noicesStatus) throws Exception {
-        noicesMapper.getNoicesListByStatus(noicesStatus);
+    public List<Noices> getNoicesListByStatus(Integer noicesStatus) throws Exception {
+        return noicesMapper.getNoicesListByStatus(noicesStatus);
     }
 
     @Override

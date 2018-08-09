@@ -11,8 +11,8 @@ public class User {
     private String password;
     private String email;
     private String phone;
-    private Data birthday;
-    private char sex;
+    private String birthday;
+    private String sex;
     private String simpleTalk;
     private String headImg;
 
@@ -56,19 +56,19 @@ public class User {
         this.phone = phone;
     }
 
-    public Data getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Data birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public char getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(char sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

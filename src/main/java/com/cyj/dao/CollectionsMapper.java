@@ -1,6 +1,7 @@
 package com.cyj.dao;
 
 import com.cyj.pojo.custom.CollectionsCustom;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -8,6 +9,9 @@ import java.util.List;
  * Created by amini on 2018/7/25.
  */
 public interface CollectionsMapper {
+
+    //根据文章id删除收藏的文章
+    public void deleteCollectionById(@Param("collectionArticleId") Integer collectionArticleId) throws Exception;
 
     //增加关系
     public void insertCollection(CollectionsCustom collectionsCustom) throws Exception;

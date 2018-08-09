@@ -14,6 +14,10 @@ import java.util.List;
  */
 public interface ArticleService {
 
+    //得到分类文章
+    public List<ArticleCustom> getArticleListByCast(String cast,Integer status) throws Exception;
+
+
     //新增文章
     public int insertArticle(Article article) throws Exception;
 

@@ -45,9 +45,9 @@
                 </div>
                 <div id="mynavbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="javascript:" id="navFood">美食</a></li>
-                        <li><a href="javascript:" id="navPet">宠物</a></li>
-                        <li><a href="javascript:" id="navStudy">学习</a></li>
+                        <li><a href="/cast/food" id="navFood">美食</a></li>
+                        <li><a href="/cast/pet" id="navPet">宠物</a></li>
+                        <li><a href="/cast/study" id="navStudy">学习</a></li>
                         <li><a href="javascript:" id="navAbout">关于</a></li>
                         <li><a href="javascript:" id="navLink">联系</a></li>
 
@@ -75,83 +75,6 @@
     </div>
     <!-- 导航条end -->
 
-    <!--登陆注册的模态框-->
-   <%-- <div class="modal fade login" id="loginModal">
-        <div class="modal-dialog login animated">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Login with</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="box">
-                        <div class="content">
-                            <div class="social">
-                                <div class="row">
-
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-default btn-lg" id="emailbtn" onclick="emailClick();">
-                                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                        </button>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <button type="button" class="btn btn-default btn-lg" id="phonebtn" onclick="phoneClick();">
-                                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="division">
-                                <div class="line l"></div>
-                                <span>-</span>
-                                <div class="line r"></div>
-                            </div>
-                            <div id="error"></div>
-                            <div class="form loginBox">
-                                <form method="post" accept-charset="UTF-8">
-                                    <input id="loginNum" class="form-control" type="text" placeholder="邮箱/手机号码" name="loginNum">
-                                    <input id="loginPwd" class="form-control" type="password" placeholder="密码" name="password">
-                                    <input class="btn btn-default btn-login" type="button" value="登陆" onclick="loginAjax();">
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="content registerBox" style="display:none;">
-
-                            <div class="form">
-                                <form method="post" html="{:multipart=>true}" data-remote="true" action="/user/insertUser" accept-charset="UTF-8" onsubmit="return register();">
-                                    <input id="email" class="form-control email" type="text" placeholder="邮箱注册" name="email" onblur="checkPhoneAndEmail()">
-                                    <input id="phone" class="form-control" type="hidden" placeholder="手机号码注册" name="phone" onblur="checkPhoneAndEmail()">
-
-                                    <button type="button" class="btn btn-default" id="send" data-toggle="tooltip" data-placement="right" title="Send verification code" onclick="sendMessage();" disabled>发送邮箱验证码，请注意查收</button>
-                                    <input id="writeCode" class="form-control" type="text" placeholder="输入验证码" name="writeCode" onblur="checkCode();">
-
-                                    <input id="password" class="form-control pwd" type="password" placeholder="密码" name="password" onblur="checkPwd();">
-                                    <input id="password_confirmation" class="form-control repwd" type="password" placeholder="确认密码" name="password_confirmation" onblur="checkRepwd();">
-                                    <input class="btn btn-default btn-register" type="submit" value="注册" name="commit">
-                                </form>
-                            </div>
-                            <div id="rerror" class="rerror"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="forgot login-footer">
-                            <span>去
-                                 <a href="javascript: showRegisterForm();">注册</a>
-                            ?</span>
-                    </div>
-                    <div class="forgot register-footer" style="display:none">
-                        <span>已注册?</span>
-                        <a href="javascript: showLoginForm();">登陆</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>--%>
 
     <!-- 首页显示的内容start -->
     <div id="myIndex" style="margin:50px 20px 10px 20px">
@@ -367,8 +290,6 @@
                                                 </c:if>
                                             </c:otherwise>
                                         </c:choose>
-                                            <%--<li><a href="/p/1">1</a></li>
-                                            <li><a href="/p/2">2</a></li>--%>
 
                                             <%--显示第一页的页码--%>
                                         <c:if test="${begin >= 2 }">
@@ -443,34 +364,19 @@
                         </div>
                     </div>
                     <div class="list-group">
+                        <c:forEach items="${articles}" var="articles">
                         <a href="" class="list-group-item">
-                            <h4 class="media-heading" id="recommend_title">Media heading</h4>
+                            <h4 class="media-heading" id="recommend_title">${articles.articleTitle}</h4>
                             <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
 								<span>
-									发布日期：<span id="recommend_post_date">2018-07-08</span>
-									分类：<span id="recommend_cate">宠物</span>
+									发布日期：<span id="recommend_post_date"><fmt:formatDate value="${articles.articleUpdateTime}"
+                                                                                        pattern="MM月dd日 HH:mm"/></span>
+									分类：<span id="recommend_cate">${articles.articleCast}</span>
 								</span>
                             </div>
 
                         </a>
-                        <a href="" class="list-group-item">
-                            <h4 class="media-heading" id="recommend_title">Media heading</h4>
-                            <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
-								<span>
-									发布日期：<span id="recommend_post_date">2018-07-08</span>
-									分类：<span id="recommend_cate">宠物</span>
-								</span>
-                            </div>
-                        </a>
-                        <a href="" class="list-group-item">
-                            <h4 class="media-heading" id="recommend_title">Media heading</h4>
-                            <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
-								<span>
-									发布日期：<span id="recommend_post_date">2018-07-08</span>
-									分类：<span id="recommend_cate">宠物</span>
-								</span>
-                            </div>
-                        </a>
+                        </c:forEach>
                     </div>
 
                 </div>
@@ -483,24 +389,22 @@
                             <h3>通知</h3>
                         </div>
                     </div>
+
                     <div class="list-group">
-                        <a href="" class="list-group-item">
+                        <c:forEach items="${noicesList}" var="n">
+                            <a href="" class="list-group-item">
 							<span id="notice">
-								通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容
+								${n.noiceContent}
+                                <span style="padding: 5px;font-size: 12px;color: #e7e7e7">
+                                    <fmt:formatDate value="${n.noiceCreateTime}"
+                                                    pattern="yyyy年MM月dd日 HH:mm"/>
+                                </span>
 							</span>
 
 
-                        </a>
-                        <a href="" class="list-group-item">
-							<span id="notice">
-								通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容
-							</span>
-                        </a>
-                        <a href="" class="list-group-item">
-							<span id="notice">
-								通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容
-							</span>
-                        </a>
+                            </a>
+                        </c:forEach>
+
                     </div>
 
                 </div>
@@ -589,9 +493,7 @@
     </div>
     <!-- 页脚end -->
 
-    <!-- <div style="position:fixed;top:400px;left:1350px;">
-        <a href="#"><span class="glyphicon glyphicon-chevron-up"></span></a>
-    </div> -->
+
     <script>
         $('#navAbout').click(function(){
             $("#myIndex").css("display","none");

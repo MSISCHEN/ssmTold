@@ -122,6 +122,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<ArticleCustom> getArticleListByCast(String cast,Integer status) throws Exception {
+        List<ArticleCustom> articleCustoms=articleMapper.getArticleListByCast(cast,status);
+        if (articleCustoms!=null){
+            for(int i=0;i<articleCustoms.size();i++){
+                ArticleCustom articleCustom=articleCustoms.get(i);
+                articleCustom.setCollectionNum(collectionsMapper.getArticleCollectionNum(articleCustom.getArticleId()));
+                articleCustom.setCommentNum(commentMapper.getCommentNumByArticleId(articleCustom.getArticleId()));
+            }
+        }
+        return articleCustoms;
+    }
+
+    @Override
     public List<ArticleListVo> getArticleListVo(Integer status) throws Exception {
         List<ArticleCustom> articleCustoms=this.getArticleList(status);
         List<ArticleListVo> articleListVoList=null ;

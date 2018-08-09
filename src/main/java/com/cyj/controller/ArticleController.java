@@ -42,6 +42,7 @@ public class ArticleController {
     @RequestMapping("/updateArticle")
     public  String updateArticle(ArticleCustom articleCustom) throws Exception{
         articleCustom.setArticleUpdateTime(new Date());
+        articleCustom.setArticleStatus(0);
         articleService.updateByPrimaryKeySelective(articleCustom);
         return "redirect:findBlog/"+articleCustom.getArticleId();
     }
@@ -80,8 +81,9 @@ public class ArticleController {
     @RequestMapping("/deleteArticleById/{articleId}")
     public void deleteByPrimaryKey (@PathVariable int articleId) throws Exception{
         if(articleId!=0){
-            articleService.deleteByPrimaryKey(articleId);
             commentService.deleteComment(articleId);
+            collectionsService.deleteCollectionById(articleId);
+            articleService.deleteByPrimaryKey(articleId);
         }else{
 
         }

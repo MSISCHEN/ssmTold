@@ -13,6 +13,12 @@ import java.util.List;
 public class CollectionsServiceImpl implements CollectionsService {
     @Autowired
     private CollectionsMapper collectionsMapper;
+
+    @Override
+    public void deleteCollectionById(Integer collectionArticleId) throws Exception {
+        collectionsMapper.deleteCollectionById(collectionArticleId);
+    }
+
     @Override
     public void insertCollection(CollectionsCustom collectionsCustom) throws Exception {
         collectionsMapper.insertCollection(collectionsCustom);

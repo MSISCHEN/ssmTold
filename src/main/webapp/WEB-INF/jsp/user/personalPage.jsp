@@ -152,7 +152,10 @@
                             <div>
                                 <div class="row">
                                     <div class="col-sm-10">
+                                        <a href="/article/findBlog/${article.articleId}">
+
                                         <div id="articleTitle">${article.articleTitle}</div>
+                                        </a>
                                         <div id="articlePostTime">
                                             发表时间：
                                             <fmt:formatDate value="${article.articlePostTime}" pattern="yyyy年MM月dd日 HH:mm:ss"/>
@@ -163,6 +166,7 @@
                                         </div>
 
                                     </div>
+
                                     <div class="col-sm-2">
                                         <a href="/editorBlog/${article.articleId}">编辑</a>
                                         <a href="javascript:void(0)" onclick="deleteArticle(${article.articleId})">删除</a>

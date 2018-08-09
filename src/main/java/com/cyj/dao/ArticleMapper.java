@@ -12,6 +12,10 @@ import java.util.List;
  */
 public interface ArticleMapper {
 
+    //得到分类文章
+    public List<ArticleCustom> getArticleListByCast(@Param("cast") String cast,@Param("articleStatus") Integer articleStatus) throws Exception;
+
+
     //新增文章
     public int insertArticle(Article article)throws Exception;
 

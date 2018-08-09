@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cyj.dao.CollectionsMapper">
 
-   <!--增加收藏关系-->
+    <!--根据文章id删除收藏的文章-->
+    <delete id="deleteCollectionById">
+        DELETE FROM collection
+        WHERE collection_article_id=#{collectionArticleId}
+    </delete>
+
+    <!--增加收藏关系-->
     <insert id="insertCollection" parameterType="collectionsCustom">
         <selectKey keyProperty="collectionId" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()

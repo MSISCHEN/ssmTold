@@ -8,6 +8,11 @@ import java.util.List;
  * Created by amini on 2018/7/25.
  */
 public interface CollectionsService {
+
+    //根据文章id删除收藏的文章
+    public void deleteCollectionById(Integer collectionArticleId) throws Exception;
+
+
     //增加关系
     public void insertCollection(CollectionsCustom collectionCustom) throws Exception;
 
