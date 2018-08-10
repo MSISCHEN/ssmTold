@@ -59,10 +59,13 @@
             <c:if test="${a.articleCustom.articleStatus==0}">审核中</c:if>
             <c:if test="${a.articleCustom.articleStatus==1}">发布成功</c:if>
             <c:if test="${a.articleCustom.articleStatus==2}">驳回审核</c:if>
+            <c:if test="${a.articleCustom.articleStatus==3}">推荐中<span style="color: red">*</span> </c:if>
+
         </td>
         <td>
             <a href="javascript:void(0)" class="easyui-linkbutton pass" onclick="updateStatus(${a.articleCustom.articleId},1,${temp-1});">审核通过</a>
             <a href="#" class="easyui-linkbutton dispass" onclick="updateStatus(${a.articleCustom.articleId},2,${temp-1});">驳回审核</a>
+            <a href="#" class="easyui-linkbutton dispass" onclick="updateStatus(${a.articleCustom.articleId},3,${temp-1});">推荐此文章</a>
         </td>
     </tr>
     </c:forEach>
@@ -84,8 +87,11 @@
                 if (articleStatus==1){
 
                     $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("发布成功");
-                }else{
+                }else if (articleStatus==2){
                     $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("驳回审核");
+                }
+                else{
+                    $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("推荐中<span style=\"color:red\">*</span>");
                 }
             },
             error:function () {
@@ -93,8 +99,11 @@
                 if (articleStatus==1){
 
                     $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("发布成功");
-                }else{
+                }else if (articleStatus==2){
                     $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("驳回审核");
+                }
+                else{
+                    $(".pass:eq("+temp+")").parent().parent('td').prev().find('div').html("推荐中<span style=\"color:red\">*</span>");
                 }
             }
         });

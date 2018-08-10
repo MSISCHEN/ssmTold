@@ -24,46 +24,7 @@
     <!-- 编辑器源码文件 -->
     <script type="text/javascript" src="/resources/ueditor/ueditor.all.js"></script>
 
-    <script>
-        $(function () {
-            $("#formId").validate({
-                rules:{
-                    title:"required",
-                    description:"required",
-                    content:"required"
-                },
-                message:{
-                    title:"请输入标题",
-                    description:"请简述你的文章",
-                    content:"文章不能为空"
-                }
-            });
-        });
 
-        function checkContent(){
-            if (ue.getContent()==""){
-                alert("文章内容为空");
-                return false;
-            }else{
-                return true;
-            }
-        }
-    </script>
-    <style>
-        .error{
-            color: red;
-        }
-    </style>
-   <%-- <script>
-        $.validator.setDefaults({
-            submitHandler: function() {
-                alert("提交事件!");
-            }
-        });
-        $().ready(function() {
-            $("#commentForm").validate();
-        });
-    </script>--%>
 
 </head>
 
@@ -93,10 +54,12 @@
         </nav>
     </div>
     <!-- 导航条end -->
-    <c:choose>
+    <%--
         <c:when test="${articleCustom==null}">
+        <c:if test="${articleCustom==null}">
             <form id="formId" action="/article/insertArticle" method="post" onsubmit="return checkContent();">
-                <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
+        </c:if>
+            <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
                 <div style="padding:10px 0px 20px 0px">
                     <div class="input-group input-group-lg">
                         <input type="text" id="articleTitle" name="articleTitle" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"  placeholder="输入文章标题">
@@ -111,8 +74,8 @@
                     <script id="articleContent" name="articleContent" type="text/plain">
                             这里写你的初始化内容
                     </script>
-                    <%--<textarea id="content" name="content">
-                    </textarea>--%>
+                    &lt;%&ndash;<textarea id="content" name="content">
+                    </textarea>&ndash;%&gt;
                     <!-- 实例化编辑器 -->
                     <script type="text/javascript">
                         var ue = UE.getEditor('articleContent',{
@@ -143,63 +106,116 @@
                 </div>
             </form>
         </c:when>
-        <c:otherwise>
-            <form id="formId" action="/article/updateArticle" method="post" onsubmit="return checkContent();">
-                <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
-                <input type="hidden" id="articleId" name="articleId" value="${articleCustom.articleId}">
+        <c:otherwise>--%>
+    <c:if test="${articleCustom==null}">
+        <form id="formId" action="/article/insertArticle" method="post" onsubmit="return checkContent();">
+    </c:if>
+    <c:if test="${articleCustom!=null}">
+        <form id="formId" action="/article/updateArticle" method="post" onsubmit="return checkContent();">
+    </c:if>
+            <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
+            <input type="hidden" id="articleId" name="articleId" value="${articleCustom.articleId}">
 
-                <div style="padding:10px 0px 20px 0px">
-                    <div class="input-group input-group-lg">
-                        <input type="text" id="articleTitle" value="${articleCustom.articleTitle}" name="articleTitle" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"  placeholder="输入文章标题">
-                    </div>
+            <div style="padding:10px 0px 20px 0px">
+                <div class="input-group input-group-lg">
+                    <input type="text" id="articleTitle" value="${articleCustom.articleTitle!=null?articleCustom.articleTitle:""}" name="articleTitle" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"  placeholder="输入文章标题">
                 </div>
+            </div>
 
-                <textarea class="form-control" name="articleDescription" rows="3" minlength="30" maxlength="200" style="resize:none;" placeholder="简述这篇文章，字数在30~200字之间" id="articleDescription">${articleCustom.articleDescription}</textarea>
+            <textarea class="form-control" name="articleDescription" rows="3" minlength="30" maxlength="200" style="resize:none;" placeholder="简述这篇文章，字数在30~200字之间" id="articleDescription">${articleCustom.articleDescription!=null?articleCustom.articleDescription:""}</textarea>
 
-                <!-- 文本编辑器start -->
-                <div style="padding:30px 0px 0px 0px">
-                    <!-- 加载编辑器的容器 -->
-                    <script id="articleContent" name="articleContent" type="text/plain">
-                            ${articleCustom.articleContent}
-                    </script>
-                        <%--<textarea id="content" name="content">
-                        </textarea>--%>
-                    <!-- 实例化编辑器 -->
-                    <script type="text/javascript">
-                        var ue = UE.getEditor('articleContent',{
-                            toolbars: [
-                                ['fullscreen', 'source', 'undo', 'redo', 'cleardoc', 'bold', 'italic', 'underline', 'strikethrough', 'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify','simpleupload', 'insertimage','edittable', 'edittd', 'link', 'unlink', 'emotion', 'spechars', 'inserttable', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'insertparagraphbeforetable']
-                            ]
-                        });
-                    </script>
-                </div>
-                <!-- 文本编辑器end -->
+            <!-- 文本编辑器start -->
+            <div style="padding:30px 0px 0px 0px">
+                <!-- 加载编辑器的容器 -->
+                <script id="articleContent" name="articleContent" type="text/plain">
+                        ${articleCustom.articleContent!=null?articleCustom.articleContent:"请输入内容"}
+                </script>
+                    <%--<textarea id="content" name="content">
+                    </textarea>--%>
+                <!-- 实例化编辑器 -->
+                <script type="text/javascript">
+                    var ue = UE.getEditor('articleContent',{
+                        toolbars: [
+                            ['fullscreen', 'source', 'undo', 'redo', 'cleardoc', 'bold', 'italic', 'underline', 'strikethrough', 'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify','simpleupload', 'insertimage','edittable', 'edittd', 'link', 'unlink', 'emotion', 'spechars', 'inserttable', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'insertparagraphbeforetable']
+                        ]
+                    });
+                </script>
+            </div>
+            <!-- 文本编辑器end -->
 
-                <div style="padding:30px 5px">
-                    <span>文章类型：</span>
+            <div style="padding:30px 5px">
+                <span>文章类型：</span>
 
-                    <select id="articleCast" name="articleCast" class="form-control">
-                        <option value="other">其他</option>
-                        <option value="food">美食</option>
-                        <option value="pet">宠物</option>
-                        <option value="study">学习</option>
-                    </select>
+                <select id="articleCast" name="articleCast" class="form-control">
+                    <option value="other">其他</option>
+                    <option value="food">美食</option>
+                    <option value="pet">宠物</option>
+                    <option value="study">学习</option>
+                </select>
 
-                    <script>
-                        var roleName="${articleCustom.articleCast}"
-                        $("#articleCast").val(roleName);
-                    </script>
-                </div>
-
-                <div style="padding:0px 0px 30px 0px">
+                <script>
+                    var roleName;
+                    if(${articleCustom.articleCast!=null}){
+                        roleName="${articleCustom.articleCast}"
+                    }else{
+                        roleName='other';
+                    }
+                    $("#articleCast").val(roleName);
+                </script>
+            </div>
+            <div style="padding:0px 0px 30px 0px">
+                <c:if test="${articleCustom!=null}">
                     <input title="更新博客" class="btn btn-success" id="btnPublish" type="submit" value="更新博客">
-                    &nbsp;&nbsp;&nbsp;
-                    <input title="返回列表页" class="btn btn-danger" id="btnCancel" type="cancel" value="返回">
-                </div>
-            </form>
-        </c:otherwise>
-    </c:choose>
+                </c:if>
+                <c:if test="${articleCustom==null}">
+                    <input title="发布博客" class="btn btn-success" id="btnPublish" type="submit" value="发布博客">
+                </c:if>
+                &nbsp;&nbsp;&nbsp;
+                <input title="返回列表页" class="btn btn-danger" id="btnCancel" type="cancel" value="返回">
+            </div>
+
+    <c:if test="${articleCustom!=null}"></form></c:if>
+    <c:if test="${articleCustom==null}"></form></c:if>
 </div>
+<script>
+    $(function () {
+        $("#formId").validate({
+            rules:{
+                title:"required",
+                description:"required",
+                content:"required"
+            },
+            message:{
+                title:"请输入标题",
+                description:"请简述你的文章",
+                content:"文章不能为空"
+            }
+        });
+    });
+
+    function checkContent(){
+        if (ue.getContent()==""){
+            alert("文章内容为空");
+            return false;
+        }else if($.trim($("#articleTitle").val()).length<1){
+            alert("请输入文章标题");
+            return false;
+        }else if($.trim($("#articleDescription").val()).length<20){
+            alert("简略30`100字描述你的文章");
+            return false;
+        }
+
+        else{
+            return true;
+        }
+    }
+</script>
+<style>
+    .error{
+        color: red;
+    }
+</style>
+
 </body>
 
 </html>

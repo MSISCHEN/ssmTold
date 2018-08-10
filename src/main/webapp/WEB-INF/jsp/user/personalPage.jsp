@@ -156,6 +156,18 @@
 
                                         <div id="articleTitle">${article.articleTitle}</div>
                                         </a>
+                                        <c:if test="${article.articleStatus==0}">
+                                            <span class="badge">审核中</span>
+                                        </c:if>
+                                        <c:if test="${article.articleStatus==1}">
+                                            <span class="badge">发表成功</span>
+                                        </c:if>
+                                        <c:if test="${article.articleStatus==2}">
+                                            <span class="badge">驳回文</span>
+                                        </c:if>
+                                        <c:if test="${article.articleStatus==3}">
+                                            <span class="badge">推荐文</span>
+                                        </c:if>
                                         <div id="articlePostTime">
                                             发表时间：
                                             <fmt:formatDate value="${article.articlePostTime}" pattern="yyyy年MM月dd日 HH:mm:ss"/>

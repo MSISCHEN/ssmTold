@@ -30,10 +30,10 @@
                 <div>
                         <input id="id" name="id" type="hidden" value="${user.id}"/>
                         昵称：<input type="text" class="form-control" id="uname" name="uname" value="${user.name}" onblur="checkName();">
-                        <c:if test="${user.name!=null}">
+                        <c:if test="${user.name!=''}">
                             邮箱：<input type="text" class="form-control has-error" id="email" value="${user.email}" readonly>
                         </c:if>
-                        <c:if test="${user.phone!=null}">
+                        <c:if test="${user.phone!=''}">
                             手机号码：<input type="text" class="form-control has-error" id="phone" value="${user.phone}" readonly>
                         </c:if>
                         性别：

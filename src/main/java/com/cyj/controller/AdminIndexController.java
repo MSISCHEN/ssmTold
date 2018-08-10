@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -146,6 +147,13 @@ public class AdminIndexController {
         modelAndView.setViewName("redirect:/admin");
 
         return modelAndView;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session)throws Exception{
+        session.removeAttribute("admin");
+        session.invalidate();
+        return "redirect:/admin";
     }
 
     @RequestMapping("/import")

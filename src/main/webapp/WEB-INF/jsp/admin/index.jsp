@@ -23,6 +23,7 @@
 <div class="easyui-layout" style="width:100%;height:700px;">
     <div data-options="region:'north'" style="height:90px;">
         <img src="/static/images/logo.gif"/>
+        <a href="/admin/logout" class="easyui-linkbutton">退出</a>
     </div>
     <div data-options="region:'south',split:true" style="height:50px;text-align:center">
         <span>©copy amini</span>
@@ -70,7 +71,7 @@
             </div>
             <div title="通知操作" style="padding:10px;">
                 <form id="addNoice">
-                    <input id="content" class="easyui-textbox easyui-validatebox" data-options="multiline:true,required:true" style="width:80%;height:100px">
+                    <textarea id="content" name="content" style="margin: 20px;padding: 10px;width:80%;height:100px"></textarea>
                     <input type="button" value="添加" onclick="sub()">
                 </form>
 
@@ -110,19 +111,24 @@
     function sub() {
         var content=$.trim($("#content").val());
         if(content!=null&&content!=""){
+            $("#content").val("");
+            $("#_easyui_textbox_input1").val("");
+
+
             $.ajax({
                 url:"/admin/insertNoices",
                 type:"post",
                 data:{"noiceContent":content},
                 success:function(){
+                   /* alert($("#content").text());
+                    $("#content").text("");
                     alert($("#content").val());
-                    $("#content").val("");
-                    alert($("#content").val());
+                    alert($("#content").html());*/
                     alert("添加成功");
                 },
                 error:function () {
-                    $("#content").val("");
-                    $(".textbox-value").val("");
+                   /* $("#content").val("");
+                    $(".textbox-value").val("");*/
                     alert("添加成功");
                 }
             });

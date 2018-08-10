@@ -98,9 +98,11 @@ public class UserController {
     @RequestMapping("/insertUser")
     public String insertUser(HttpServletRequest request,User user)throws Exception{
         if (user.getEmail()!=null||user.getPhone()!=null){
+            String headImg="static/images/head.png";
             String name= UUID.randomUUID().toString();
             name=name.replace("-","");
             user.setName(name);
+            user.setHeadImg(headImg);
             userService.insertUser(user);
             request.getSession().setAttribute("user",user);
 
