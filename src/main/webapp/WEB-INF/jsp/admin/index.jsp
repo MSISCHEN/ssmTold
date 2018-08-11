@@ -21,9 +21,11 @@
 
 <div style="margin:10px 0;"></div>
 <div class="easyui-layout" style="width:100%;height:700px;">
-    <div data-options="region:'north'" style="height:90px;">
-        <img src="/static/images/logo.gif"/>
+    <div data-options="region:'north'" style="height:80px;padding: 15px">
+        <img src="/static/images/logo.gif" width="94px" height="42px"/>
+        <span style="padding: 10px">
         <a href="/admin/logout" class="easyui-linkbutton">退出</a>
+        </span>
     </div>
     <div data-options="region:'south',split:true" style="height:50px;text-align:center">
         <span>©copy amini</span>

@@ -53,60 +53,7 @@
             </div>
         </nav>
     </div>
-    <!-- 导航条end -->
-    <%--
-        <c:when test="${articleCustom==null}">
-        <c:if test="${articleCustom==null}">
-            <form id="formId" action="/article/insertArticle" method="post" onsubmit="return checkContent();">
-        </c:if>
-            <input type="hidden" id="articleUserId" name="articleUserId" value="${user.id}">
-                <div style="padding:10px 0px 20px 0px">
-                    <div class="input-group input-group-lg">
-                        <input type="text" id="articleTitle" name="articleTitle" maxlength="15" class="form-control" onkeyup="this.value=this.value.replace(/^\s+|\s+$/g,'')"  placeholder="输入文章标题">
-                    </div>
-                </div>
 
-                <textarea class="form-control" name="articleDescription" rows="3" minlength="30" maxlength="200" style="resize:none;" placeholder="简述这篇文章，字数在30~200字之间" id="articleDescription"></textarea>
-
-                <!-- 文本编辑器start -->
-                <div style="padding:30px 0px 0px 0px">
-                    <!-- 加载编辑器的容器 -->
-                    <script id="articleContent" name="articleContent" type="text/plain">
-                            这里写你的初始化内容
-                    </script>
-                    &lt;%&ndash;<textarea id="content" name="content">
-                    </textarea>&ndash;%&gt;
-                    <!-- 实例化编辑器 -->
-                    <script type="text/javascript">
-                        var ue = UE.getEditor('articleContent',{
-                            toolbars: [
-                                ['fullscreen', 'source', 'undo', 'redo', 'cleardoc', 'bold', 'italic', 'underline', 'strikethrough', 'fontfamily', 'fontsize', 'forecolor', 'backcolor', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify','simpleupload', 'insertimage','edittable', 'edittd', 'link', 'unlink', 'emotion', 'spechars', 'inserttable', 'insertrow', 'insertcol', 'mergeright', 'mergedown', 'deleterow', 'deletecol', 'splittorows', 'splittocols', 'splittocells', 'deletecaption', 'inserttitle', 'mergecells', 'deletetable', 'insertparagraphbeforetable']
-                            ]
-                        });
-                    </script>
-                </div>
-                <!-- 文本编辑器end -->
-
-                <div style="padding:30px 5px">
-                    <span>文章类型：</span>
-                    <select id="articleCast" name="articleCast" class="form-control">
-                        <option value="other">其他</option>
-                        <option value="food">美食</option>
-                        <option value="pet">宠物</option>
-                        <option value="study">学习</option>
-                    </select>
-
-
-                </div>
-
-                <div style="padding:0px 0px 30px 0px">
-                    <input title="发布博客" class="btn btn-success" id="btnPublish" type="submit" value="发布博客">
-                    &nbsp;&nbsp;&nbsp;
-                    <input title="返回列表页" class="btn btn-danger" id="btnCancel" type="cancel" value="返回">
-                </div>
-            </form>
-        </c:when>
-        <c:otherwise>--%>
     <c:if test="${articleCustom==null}">
         <form id="formId" action="/article/insertArticle" method="post" onsubmit="return checkContent();">
     </c:if>

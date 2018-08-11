@@ -15,53 +15,7 @@
 
 </head>
 <body>
-    <!-- 导航条start -->
-   <%-- <div style="margin:10px 2px 100px 2px">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a href="/" id="navIndex" class="navbar-brand">TOLD
-                        <!--如果有logo可以加这里，并且把文字去掉，设置height=100%就可以正常显示-->
-                    </a>
-                    <button class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#mynavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div id="mynavbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="javascript:" id="navFood">美食</a></li>
-                        <li><a href="javascript:" id="navPet">宠物</a></li>
-                        <li><a href="javascript:" id="navStudy">学习</a></li>
-                        <li><a href="javascript:" id="navAbout">关于</a></li>
-                        <li><a href="javascript:" id="navLink">联系</a></li>
 
-
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <c:choose>
-                            <c:when test="${user==null||user.id==0}">
-                                <li><a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">登陆</a></li>
-                                <li><a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">注册</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                &lt;%&ndash;<span>${user.id}</span>&ndash;%&gt;
-                                <li><a href="/blog"><span class="glyphicon glyphicon-pencil"></span>写博客</a></li>
-                                <li><a href="/user/personalPage/${user.id}"><img src="${user.headImg}" width="30" height="30" class="img-circle"></img></a></li>
-                                <li><a href="/user/logout">退出</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
-
-                </div>
-
-            </div>
-        </nav>
-    </div>--%>
-    <!-- 导航条end -->
 
     <!--登陆注册的模态框-->
     <div class="modal fade login" id="loginModal">

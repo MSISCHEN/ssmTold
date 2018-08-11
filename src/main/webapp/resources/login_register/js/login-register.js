@@ -18,7 +18,7 @@
             var pattern=/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
             if (pattern.test(email)) {
                 $.ajax({
-                    url: "http://localhost:8080/code/findEmailIsExist",
+                    url: "/code/findEmailIsExist",
                     type: "post",
                     data: {"email": email},
                     dataType: "json",
@@ -48,7 +48,7 @@
             if(pattern.test(phone)){
 
                 $.ajax({
-                    url:"http://localhost:8080/code/findPhoneIsExist",
+                    url:"/code/findPhoneIsExist",
                     type:"post",
                     data:{"phone":phone},
                     dataType:"json",
@@ -205,7 +205,7 @@ var sms="";
         $('#phone').attr('class','form-control');
         $('#writeCode').val('').attr('class','form-control');
         $('.email').val('');
-        alert('您选择手机号码注册');
+        alert('您选择手机号码');
         $('.email').attr('type','hidden');
         $('#send').text('发送手机验证码，注意查收');
     }
@@ -213,7 +213,7 @@ var sms="";
         $('#rerror').html("").attr('class','rerror');
         $('#writeCode').val('').attr('class','form-control');
         $('#phone').val('');
-        alert('您选择邮箱注册');
+        alert('您选择邮箱');
         $('#phone').attr('type','hidden');
         $('.email').attr('type','text');
         $('.email').attr('class','form-control email');

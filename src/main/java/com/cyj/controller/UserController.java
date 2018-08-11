@@ -33,14 +33,7 @@ public class UserController {
     public User findUserById(@PathVariable int id) throws Exception{
         return userService.findUserById(id);
     }
-/*
 
-    @RequestMapping("/login_register")
-    public String getLoginRegister(){
-
-        return "user/loginRegister";
-    }
-*/
 
     //更新用户
     @RequestMapping("/updateUser")
@@ -106,10 +99,9 @@ public class UserController {
             userService.insertUser(user);
             request.getSession().setAttribute("user",user);
 
-            return "user/personalPage";
         }
 
-        return "redirect:/index.jsp";
+        return "redirect:/";
     }
 
     //查看用户名是否已经被注册了

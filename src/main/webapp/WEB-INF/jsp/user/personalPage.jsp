@@ -42,18 +42,18 @@
                 </div>
                 <div id="mynavbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="javascript:" id="navFood">美食</a></li>
+                        <%--<li><a href="javascript:" id="navFood">美食</a></li>
                         <li><a href="javascript:" id="navPet">宠物</a></li>
                         <li><a href="javascript:" id="navStudy">学习</a></li>
                         <li><a href="javascript:" id="navAbout">关于</a></li>
                         <li><a href="javascript:" id="navLink">联系</a></li>
 
-
+--%>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/blog"><span class="glyphicon glyphicon-pencil"></span>写博客</a></li>
-                        <li><a href="javascript:"><img src="/${user.headImg}" width="30" height="30" class="img-circle"/></a></li>
+                        <li><a href="javascript:"><img src="${pageContext.request.contextPath}/${user.headImg}" width="30" height="30" class="img-circle"/></a></li>
                         <li><a href="/user/logout">退出</a></li>
                     </ul>
 

@@ -21,14 +21,17 @@ public class IndustrySMS
     private static String operation = "/industrySMS/sendSMS";
 
     private static String accountSid = Config.ACCOUNT_SID;
-    private static String random=(int)((Math.random()*9+1)*100000)+"";
-    private static String smsContent = "【TOLD】尊敬的用户，您好，您正在注册TOLD博客网站，验证码为："+random+"，请于3分钟内正确输入，若非本人操作请忽略此短信";
+//    private static String random=(int)((Math.random()*9+1)*100000)+"";
+//    private static String smsContent = "【TOLD】尊敬的用户，您好，您正在注册TOLD博客网站，验证码为："+random+"，请于3分钟内正确输入，若非本人操作请忽略此短信";
 
     /**
      * 验证码通知短信
      */
     public static String execute(String to)
     {
+        String random=(int)((Math.random()*9+1)*100000)+"";
+        String smsContent = "【TOLD】尊敬的用户，您好，您正在注册TOLD博客网站，验证码为："+random+"，请于3分钟内正确输入，若非本人操作请忽略此短信";
+
         String tmpSmsContent = null;
         try{
             tmpSmsContent = URLEncoder.encode(smsContent, "UTF-8");

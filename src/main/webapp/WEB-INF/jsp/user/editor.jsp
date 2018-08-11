@@ -87,11 +87,11 @@
     </div>
 </div>
 <script>
-    function getSelectDate(result){
+    /*function getSelectDate(result){
         //这里获取选择的日期
         console.log(result);
         alert(result);
-    }
+    }*/
 
 
     function checkName() {
@@ -122,14 +122,7 @@
         var birth=$("#birth").val();
         $('#laydateInput').val(birth);
     })
-    /*$("#save").click(function () {
-        var name=$("#uname").val();
-        var sex=$("input[name='sex'][checked]").val();//获取被选中的Radio的value
-        var birthday=$('#laydateInput').val();
-        var simpleTalk=$('#simpleTalk').text();
 
-
-    })*/
 
 </script>
 </body>
