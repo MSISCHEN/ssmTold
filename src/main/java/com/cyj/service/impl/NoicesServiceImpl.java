@@ -71,7 +71,7 @@ public class NoicesServiceImpl implements NoicesService {
         excel.add(new ExcelBean("添加时间","noiceCreateTime",0));
         excel.add(new ExcelBean("状态","noiceStatus",0));
         map.put(0,excel);
-        String sheetName="通知列表"+new Date().getTime();
+        String sheetName="通知列表"+System.currentTimeMillis();
         //调用ExcelUtil的方法
         xssfWorkbook=ExcelUtil.createExcelFile(Noices.class,noicesList,map,sheetName);
         return xssfWorkbook;

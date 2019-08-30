@@ -245,7 +245,7 @@
                         <img src="/${articleDetailVo.userCustom.headImg}" width="45" height="45">
                         <span>${articleDetailVo.userCustom.name}</span>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" readonly="true">
                         <a class="btn btn-danger">关注</a>
                     </div>
                 </div>

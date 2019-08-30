@@ -16,11 +16,11 @@
     <title>个人主页</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link href="/resources/login_register/css/bootstrap.css" rel="stylesheet" />
-    <script src="/resources/login_register/js/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="/resources/login_register/js/bootstrap.js" type="text/javascript"></script>
-    <script src="/resources/login_register/js/holder.js" type="text/javascript"></script>
-    <script src="/resources/login_register/js/personalPage.js" type="text/javascript"></script>
+    <link href="${pageContext.request.contextPath}/resources/login_register/css/bootstrap.css" rel="stylesheet" />
+    <script src="${pageContext.request.contextPath}/resources/login_register/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/resources/login_register/js/bootstrap.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/resources/login_register/js/holder.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/resources/login_register/js/personalPage.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -30,7 +30,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="/" id="navIndex" class="navbar-brand">TOLD
+                    <a href="${pageContext.request.contextPath}/" id="navIndex" class="navbar-brand">TOLD
                         <!--如果有logo可以加这里，并且把文字去掉，设置height=100%就可以正常显示-->
                     </a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse"
@@ -52,9 +52,9 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/blog"><span class="glyphicon glyphicon-pencil"></span>写博客</a></li>
+                        <li><a href="${pageContext.request.contextPath}/blog"><span class="glyphicon glyphicon-pencil"></span>写博客</a></li>
                         <li><a href="javascript:"><img src="${pageContext.request.contextPath}/${user.headImg}" width="30" height="30" class="img-circle"/></a></li>
-                        <li><a href="/user/logout">退出</a></li>
+                        <li><a href="${pageContext.request.contextPath}/user/logout">退出</a></li>
                     </ul>
 
                 </div>
@@ -81,7 +81,7 @@
                                     <h3>修改头像</h3>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/user/eidtorHeadImg" method="post" enctype="multipart/form-data">
+                                    <form action="${pageContext.request.contextPath}/user/eidtorHeadImg" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="userId" value="${user.id}"/>
                                         <label for="file">文件名：</label>
                                         <input id="file" name="file" type="file"/>

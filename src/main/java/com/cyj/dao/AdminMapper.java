@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface AdminMapper {
     //查找用户
-    public Integer selectAdmin(Admin admin) throws Exception;
+    Integer selectAdmin(Admin admin) throws Exception;
 
     long countByExample(AdminExample example);
 

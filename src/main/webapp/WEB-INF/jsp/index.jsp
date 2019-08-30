@@ -365,7 +365,7 @@
                     </div>
                     <div class="list-group">
                         <c:forEach items="${articles}" var="articles">
-                        <a href="" class="list-group-item">
+                        <a href="/article/findBlog/${articles.articleId}" class="list-group-item">
                             <h4 class="media-heading" id="recommend_title">${articles.articleTitle}</h4>
                             <div style="color:#a3a3a3;font-size:12px;line-height:12px;">
 								<span>
@@ -441,7 +441,7 @@
 						<input type="email" class="form-control" id="link_email1" placeholder="邮箱"/><br>
 						<input type="text" class="form-control" id="link_phone" placeholder="联系电话"/><br>
 						<textarea class="form-control" rows="3" placeholder="内容"></textarea><br>
-						<input class="btn btn-default" type="submit" value="Submit"/>
+						<input class="btn btn-default" type="submit" value="Submit" disabled/>
 					</div>
 				</form>
             </div>
